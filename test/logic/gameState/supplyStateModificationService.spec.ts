@@ -1,11 +1,11 @@
-import {House} from '../../src/model/player/house';
-import SupplyStateModificationService from '../../src/logic/gameState/supplyStateModificationService';
-import Player from '../../src/model/player/player';
-import AreaBuilder from '../areaBuilder';
-import {AreaKey} from '../../src/model/area/areaKey';
+import {House} from '../../../src/model/player/house';
+import SupplyStateModificationService from '../../../src/logic/gameState/supplyStateModificationService';
+import Player from '../../../src/model/player/player';
+import AreaBuilder from '../../areaBuilder';
+import {AreaKey} from '../../../src/model/area/areaKey';
 
-import {Area} from '../../src/model/area/area';
-import StateSelectorService from '../../src/selector/stateSelectorService';
+import {Area} from '../../../src/model/area/area';
+import StateSelectorService from '../../../src/selector/stateSelectorService';
 
 describe('SupplyStateModificationService', () => {
 
