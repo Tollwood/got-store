@@ -1,0 +1,40 @@
+{
+  "name": "got-store",
+  "productName": "got-store",
+  "version": "0.1.0",
+  "author": "Tobias Manger <https://github.com/tollwood>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tollwood/gameOfThrones.git"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "test": "karma start karma.conf.js --single-run",
+    "lint": "tslint ./**/*.ts -t verbose",
+    "lint-fix": "tslint --fix **/*.ts -t verbose"
+  },
+  "dependencies": {
+    "redux": "^3.7.2",
+    "core-js": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "clean-webpack-plugin": "^0.1.18",
+    "istanbul-instrumenter-loader": "^2.0.0",
+    "jasmine-core": "~2.6.2",
+    "karma": "~1.7.0",
+    "karma-chrome-launcher": "~2.1.1",
+    "karma-webpack": "^2.0.9",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-coverage-istanbul-reporter":"^1.4.1",
+    "karma-remap-istanbul": "^0.6.0",
+    "karma-jasmine": "^1.1.1",
+    "source-map-loader":"^0.2.3",
+    "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
+    "tslint": "^5.9.1",
+    "tslint-loader": "^3.5.3",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.2",
+    "webpack": "~3.10.0"
+  }
+}
