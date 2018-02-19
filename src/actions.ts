@@ -27,7 +27,6 @@ export enum TypeKeys {
 
 export interface PlayWesterosCardAction {
   type: TypeKeys.PLAY_WESTEROS_CARD;
-  card: WesterosCard;
 }
 
 export interface ExecuteWesterosCardAction {
@@ -99,9 +98,8 @@ export type ActionTypes =
   | PlayWesterosCardAction
   | OtherAction;
 
-export const playWesterosCard = (card: WesterosCard): PlayWesterosCardAction => ({
-  type: TypeKeys.PLAY_WESTEROS_CARD,
-  card
+export const playWesterosCard = (): PlayWesterosCardAction => ({
+  type: TypeKeys.PLAY_WESTEROS_CARD
 });
 
 export const executeWesterosCard = (card: WesterosCard): ExecuteWesterosCardAction => ({
