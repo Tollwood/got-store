@@ -1,17 +1,17 @@
-import {Area} from '../../model/area/area';
+import Area from '../../model/area/area';
 import * as areaConfigData from './areaConfig.json';
 import * as unitsConfigData from './unitsConfig.json';
 import {House} from '../../model/player/house';
 import Unit from '../../model/units/units';
 import {UnitType} from '../../model/units/unitType';
 import {AreaKey} from '../../model/area/areaKey';
-import {AreaStats} from '../../model/area/areaStats';
+import AreaStats from '../../model/area/areaStats';
 
 export class AreaInitiator {
 
     public static getInitalState(playingHouses: Array<House>): Map<AreaKey, Area> {
         let areas: Map<AreaKey, Area> = new Map();
-        (<any>unitsConfigData).forEach((jsonConfig) => {
+        Array.from(<any>unitsConfigData).forEach((jsonConfig: any) => {
             if (playingHouses.indexOf(House[<string>jsonConfig.controllingHouse]) > -1) {
                 const area = this.createArea(jsonConfig);
                 areas.set(area.key, area);
@@ -24,7 +24,7 @@ export class AreaInitiator {
     public static getAreaStats(): Map<AreaKey, AreaStats> {
         let areasStats: Map<AreaKey, AreaStats> = new Map();
 
-        (<any>areaConfigData).forEach((jsonConfig) => {
+        Array.from(<any>areaConfigData).forEach((jsonConfig) => {
             const areaStats = this.parseAreas(jsonConfig);
             areasStats.set(areaStats.key, areaStats);
         });
@@ -52,8 +52,8 @@ export class AreaInitiator {
     }
 
     private static addBorderAreas(areaStats: AreaStats) {
-        const jsonConfigArea = (<any>areaConfigData)
-            .filter(jsonConfig => {
+        const jsonConfigArea: any = Array.from(<any>areaConfigData)
+            .filter((jsonConfig: any) => {
                 return AreaKey[<string>jsonConfig.key] === areaStats.key;
             })[0];
         const borders: AreaKey[] = (<any>jsonConfigArea.borders).map(borderKey => {

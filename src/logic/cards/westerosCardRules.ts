@@ -1,4 +1,4 @@
-import {WesterosCard} from '../../model/cards/westerosCard';
+import WesterosCard from '../../model/cards/westerosCard';
 import {GameStoreState} from '../../gameStoreState';
 import {GamePhase} from '../../model/gamePhase';
 

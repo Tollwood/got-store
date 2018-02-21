@@ -1,9 +1,11 @@
-import {Area} from '../../model/area/area';
+import Area from '../../model/area/area';
 import {AreaKey} from '../../model/area/areaKey';
+import AreaStats from '../../model/area/areaStats';
 import {OrderToken} from '../../model/orderToken/orderToken';
 import Unit from '../../model/units/units';
 import {UnitType} from '../../model/units/unitType';
 import StateSelectorService from '../../selector/stateSelectorService';
+import {GameStoreState} from '../../gameStoreState';
 
 export default class AreaStateModificationService {
 
@@ -119,13 +121,13 @@ export default class AreaStateModificationService {
 
     }
 
-    public static updateAfterFight(areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
+    public static updateAfterFight(state: GameStoreState, areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
 
         const newAreasMap = new Map<AreaKey, Area>();
         areas.forEach((area) => {
             const newArea = area.copy();
             if (attackingAreaKey === winningAreaKey) {
-                const winningArea: Area = StateSelectorService.getAreaByKey(winningAreaKey);
+                const winningArea: Area = StateSelectorService.getAreaByKey(state, winningAreaKey);
                 if (newArea.key === winningAreaKey) {
                     newArea.units = [];
                     newArea.orderToken = null;

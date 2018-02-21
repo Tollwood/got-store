@@ -1,5 +1,5 @@
 import {AreaKey} from '../../model/area/areaKey';
-import {AreaStats} from '../../model/area/areaStats';
+import AreaStats from '../../model/area/areaStats';
 import {AreaInitiator} from './areaInitiator';
 
 export class AreaStatsService {

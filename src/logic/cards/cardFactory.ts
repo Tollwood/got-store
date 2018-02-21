@@ -1,5 +1,5 @@
 import * as westerosCardData from './westeroscard.json';
-import {WesterosCard} from '../../model/cards/westerosCard';
+import WesterosCard from '../../model/cards/westerosCard';
 import CardFunction from '../../model/cards/cardFunction';
 import {ALL_PHASES, GamePhase} from '../../model/gamePhase';
 
@@ -18,7 +18,7 @@ export default class CardFactory {
         cards.set(GamePhase.WESTEROS2, []);
         cards.set(GamePhase.WESTEROS3, []);
 
-        (<any>westerosCardData).forEach((jsonCard) => {
+        Array.from(<any>westerosCardData).forEach((jsonCard: any) => {
             const gamePhase: GamePhase = jsonCard.gamePhase;
             let count = westerosCards[ALL_PHASES.lastIndexOf(gamePhase)].filter((cardId) => {
                 return cardId === jsonCard.id;

@@ -1,14 +1,20 @@
 {
   "name": "got-store",
   "productName": "got-store",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Tobias Manger <https://github.com/tollwood>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tollwood/gameOfThrones.git"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["./dist"],
   "scripts": {
     "compile": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run rollup",
+    "rollup": "rollup --config rollup.config.js",
     "test": "karma start karma.conf.js --single-run",
     "lint": "tslint ./**/*.ts -t verbose",
     "lint-fix": "tslint --fix **/*.ts -t verbose"
@@ -24,16 +30,19 @@
     "jasmine-core": "~2.6.2",
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.1.1",
-    "karma-webpack": "^2.0.9",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-coverage-istanbul-reporter":"^1.4.1",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-coverage-istanbul-reporter": "^1.4.1",
     "karma-jasmine": "^1.1.1",
-    "source-map-loader":"^0.2.3",
+    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.9",
+    "rollup": "^0.56.2",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-typescript2": "^0.11.1",
+    "source-map-loader": "^0.2.3",
     "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
+    "ts-loader": "^3.5.0",
     "tslint": "^5.9.1",
     "tslint-loader": "^3.5.3",
-    "ts-loader": "^3.5.0",
     "typescript": "^2.7.2",
     "webpack": "~3.10.0"
   }

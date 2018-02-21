@@ -3,7 +3,7 @@ import {OrderToken} from '../orderToken/orderToken';
 import {House} from '../player/house';
 import {AreaKey} from './areaKey';
 
-export class Area {
+export default class Area {
 
     private _key: AreaKey;
     private _controllingHouse: House;

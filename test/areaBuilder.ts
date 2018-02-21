@@ -1,4 +1,4 @@
-import {Area} from '../src/model/area/area';
+import Area from '../src/model/area/area';
 import {House} from '../src/model/player/house';
 import {UnitType} from '../src/model/units/unitType';
 import {OrderToken} from '../src/model/orderToken/orderToken';

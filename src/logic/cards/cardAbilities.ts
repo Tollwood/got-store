@@ -1,14 +1,14 @@
-import {OrderTokenType} from '../../model/orderToken/orderTokenType';
+import {OrderTokenType} from './../../model/orderToken/orderTokenType';
 import PlayerStateModificationService from '../gameState/playerStateModificationService';
 import SupplyStateModificationService from '../gameState/supplyStateModificationService';
 import RecruitingStateModificationService from '../gameState/recruitingStateModificationService';
 import GamePhaseService from '../gamePhaseService';
 import CardFactory from '../cards/cardFactory';
-import {GameStoreState} from '../../gameStoreState';
+import {GameStoreState} from './../../gameStoreState';
 
-export default class CardAbilities {
+export class CardAbilities {
 
-    public static shuffleCards(state: GameStoreState) {
+    public static shuffleCards(state: GameStoreState): GameStoreState {
         let cards = state.westerosCards.get(state.currentWesterosCard.gamePhase).slice();
         CardFactory.shuffle(cards);
 
@@ -20,7 +20,7 @@ export default class CardAbilities {
         return newState;
     }
 
-    public static supply(state: GameStoreState) {
+    public static supply(state: GameStoreState): GameStoreState {
         return {
             ...state,
             currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state),
@@ -29,7 +29,7 @@ export default class CardAbilities {
         };
     }
 
-    public static recruit(state: GameStoreState) {
+    public static recruit(state: GameStoreState): GameStoreState {
         const stateWithUnitsAllowedToRecruit = {
             ...state,
             areasAllowedToRecruit: RecruitingStateModificationService.calculateAreasAllowedToRecruit(state),
@@ -40,7 +40,7 @@ export default class CardAbilities {
         };
     }
 
-    public static nothing(state: GameStoreState) {
+    public static nothing(state: GameStoreState): GameStoreState {
         return {
             ...state,
             currentWesterosCard: null,
@@ -48,7 +48,7 @@ export default class CardAbilities {
         };
     }
 
-    public static invluence(state: GameStoreState) {
+    public static invluence(state: GameStoreState): GameStoreState {
         return {
             ...state,
             currentWesterosCard: null,
@@ -56,7 +56,7 @@ export default class CardAbilities {
         };
     }
 
-    public static power(state: GameStoreState) {
+    public static power(state: GameStoreState): GameStoreState {
         return {
             ...state,
             players: PlayerStateModificationService.consolidateAllPower(state),
@@ -65,7 +65,7 @@ export default class CardAbilities {
         };
     }
 
-    public static noDefenseOrders(state: GameStoreState) {
+    public static noDefenseOrders(state: GameStoreState): GameStoreState {
         const restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
         const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
             .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
@@ -77,7 +77,7 @@ export default class CardAbilities {
         };
     }
 
-    public static noSpecialMarchOrder(state: GameStoreState) {
+    public static noSpecialMarchOrder(state: GameStoreState): GameStoreState {
         const restrictedTokenTypes = [OrderTokenType.march_special];
         const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
             .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
@@ -89,7 +89,7 @@ export default class CardAbilities {
         };
     }
 
-    public static noRaidOrders(state: GameStoreState) {
+    public static noRaidOrders(state: GameStoreState): GameStoreState {
         const restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
         const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
             .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
@@ -101,7 +101,7 @@ export default class CardAbilities {
         };
     }
 
-    public static noConsolidatePowerOrders(state: GameStoreState) {
+    public static noConsolidatePowerOrders(state: GameStoreState): GameStoreState {
         const restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
         const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
             .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);

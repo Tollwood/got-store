@@ -1,5 +1,5 @@
 import WesterosCardRules from '../../src/logic/cards/westerosCardRules';
-import {WesterosCard} from '../../src/model/cards/westerosCard';
+import WesterosCard from '../../src/model/cards/westerosCard';
 import {GamePhase} from '../../src/model/gamePhase';
 import {gameStore} from '../../src/reducer';
 import {loadGame, playWesterosCard} from '../../src/actions';

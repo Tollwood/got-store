@@ -4,7 +4,7 @@ import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
-import {Area} from '../../src/model/area/area';
+import Area from '../../src/model/area/area';
 import {gameStore} from '../../src/reducer';
 import {loadGame, placeOrder} from '../../src/actions';
 import {OrderToken} from '../../src/model/orderToken/orderToken';

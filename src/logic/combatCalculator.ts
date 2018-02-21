@@ -1,4 +1,4 @@
-import {Area} from '../model/area/area';
+import Area from '../model/area/area';
 import CombatResult from '../model/combatResult';
 import {OrderToken} from '../model/orderToken/orderToken';
 import Unit from '../model/units/units';

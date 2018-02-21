@@ -1,6 +1,6 @@
 import {House} from './player/house';
 import Unit from './units/units';
-import {Area} from './area/area';
+import Area from './area/area';
 
 export default class CombatResult {
 

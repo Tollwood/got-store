@@ -5,7 +5,7 @@ import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';
 import Player from '../../src/model/player/player';
 import {gameStore} from '../../src/reducer';
-import {Area} from '../../src/model/area/area';
+import Area from '../../src/model/area/area';
 import AreaBuilder from '../areaBuilder';
 import {loadGame, resolveFight} from '../../src/actions';
 

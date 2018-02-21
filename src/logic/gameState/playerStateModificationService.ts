@@ -1,4 +1,4 @@
-import {Area} from '../../model/area/area';
+import Area from '../../model/area/area';
 import {AreaKey} from '../../model/area/areaKey';
 import Player from '../../model/player/player';
 import {House} from '../../model/player/house';

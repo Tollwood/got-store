@@ -1,6 +1,6 @@
 import {AreaKey} from './areaKey';
 
-export class AreaStats {
+export default class AreaStats {
 
     private _key: AreaKey;
     private _consolidatePower: number;

@@ -3,7 +3,7 @@ import {House} from '../../src/model/player/house';
 import Player from '../../src/model/player/player';
 import AreaBuilder from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
-import {Area} from '../../src/model/area/area';
+import Area from '../../src/model/area/area';
 
 import {GameStoreState} from '../../src/gameStoreState';
 

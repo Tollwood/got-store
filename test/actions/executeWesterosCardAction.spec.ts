@@ -2,7 +2,7 @@ import {gameStore} from '../../src/reducer';
 import {executeWesterosCard, loadGame} from '../../src/actions';
 import {GamePhase} from '../../src/model/gamePhase';
 import CardAbilities from '../../src/logic/cards/cardAbilities';
-import {WesterosCard} from '../../src/model/cards/westerosCard';
+import WesterosCard from '../../src/model/cards/westerosCard';
 import WesterosCardBuilder from '../westerosCardBuilder';
 import CardFunction from '../../src/model/cards/cardFunction';
 import {GameStoreState} from '../../src/gameStoreState';

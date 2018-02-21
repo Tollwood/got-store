@@ -7,9 +7,9 @@ import AreaModificationService from './logic/gameState/areaStateModificationServ
 import PlayerStateModificationService from './logic/gameState/playerStateModificationService';
 import WildlingStateModificationService from './logic/gameState/wildlingStateModificationService';
 import GameStateModificationService from './logic/gameState/gameStateModificationService';
-import CardAbilities from './logic/cards/cardAbilities';
 import {GameStoreState} from './gameStoreState';
 import WesterosCardRules from './logic/cards/westerosCardRules';
+import {CardAbilities} from './logic/cards/cardAbilities';
 
 const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): GameStoreState => {
     let newState;
@@ -85,7 +85,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
 
         case TypeKeys.EXECUTE_WESTEROS_CARD:
             newState = {
-                ...CardAbilities[action.card.selectedFunction.functionName](state),
+                 ...CardAbilities[action.card.selectedFunction.functionName](state),
                 wildlingsCount: WildlingStateModificationService.updateWildlingCount(state.wildlingsCount, action.card.wildling)
             };
             break;
@@ -112,7 +112,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             const winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
             newState = {
                 ...state,
-                areas: AreaModificationService.updateAfterFight(Array.from(state.areas.values()), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units),
+                areas: AreaModificationService.updateAfterFight(state, Array.from(state.areas.values()), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units),
             };
             break;
         default:
@@ -124,6 +124,10 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
     return nextState;
 };
 
-const gameStore: Store<GameStoreState> = createStore(gameStateReducer);
+class GameStoreFactory {
+    static create(): Store<GameStoreState> {
+        return createStore(gameStateReducer);
+    }
+}
 
-export {gameStore};
+export {GameStoreFactory};

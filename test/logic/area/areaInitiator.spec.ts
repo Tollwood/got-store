@@ -1,9 +1,9 @@
 import {AreaInitiator} from '../../../src/logic/area/areaInitiator';
 import {AreaKey} from '../../../src/model/area/areaKey';
 import {House} from '../../../src/model/player/house';
-import {Area} from '../../../src/model/area/area';
+import Area from '../../../src/model/area/area';
 import {UnitType} from '../../../src/model/units/unitType';
-import {AreaStats} from '../../../src/model/area/areaStats';
+import AreaStats from '../../../src/model/area/areaStats';
 
 describe('AreaInitiator', () => {
     describe('getInitalState', () => {

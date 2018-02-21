@@ -2,7 +2,7 @@ import AreaBuilder from '../../areaBuilder';
 import {House} from '../../../src/model/player/house';
 import {AreaKey} from '../../../src/model/area/areaKey';
 import RecruitingStateModificationService from '../../../src/logic/gameState/recruitingStateModificationService';
-import {Area} from '../../../src/model/area/area';
+import Area from '../../../src/model/area/area';
 import StateSelectorService from '../../../src/selector/stateSelectorService';
 
 

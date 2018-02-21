@@ -1,5 +1,5 @@
 import {House} from '../../model/player/house';
-import {Area} from '../../model/area/area';
+import Area from '../../model/area/area';
 import {GameStoreState} from '../../gameStoreState';
 import {AreaStatsService} from '../area/areaStatsService';
 

@@ -4,7 +4,7 @@ import Player from '../../../src/model/player/player';
 import AreaBuilder from '../../areaBuilder';
 import {AreaKey} from '../../../src/model/area/areaKey';
 
-import {Area} from '../../../src/model/area/area';
+import Area from '../../../src/model/area/area';
 import StateSelectorService from '../../../src/selector/stateSelectorService';
 
 describe('SupplyStateModificationService', () => {

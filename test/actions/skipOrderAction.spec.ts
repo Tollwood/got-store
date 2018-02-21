@@ -2,7 +2,7 @@ import AreaBuilder from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {gameStore} from '../../src/reducer';
 import {loadGame, skipOrder} from '../../src/actions';
-import {Area} from '../../src/model/area/area';
+import Area from '../../src/model/area/area';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {House} from '../../src/model/player/house';
 import AreaModificationService from '../../src/logic/gameState/areaStateModificationService';

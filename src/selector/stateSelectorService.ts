@@ -1,5 +1,4 @@
-import {Area} from '../model/area/area';
-import {gameStore} from '../reducer';
+import Area from '../model/area/area';
 import {AreaKey} from '../model/area/areaKey';
 import Player from '../model/player/player';
 import {House} from '../model/player/house';
@@ -22,13 +21,13 @@ export default class StateSelectorService {
     return state.ironThroneSuccession[0];
   }
 
-  public static getAreaByKey(areaKey: AreaKey): Area {
-    const area = gameStore.getState().areas.get(areaKey);
+  public static getAreaByKey(state: GameStoreState, areaKey: AreaKey): Area {
+    const area = state.areas.get(areaKey);
     return area ? area : null;
   }
 
-  public static getPlayerByHouse(house: House): Player {
-    return gameStore.getState().players.filter(player => player.house === house)[0];
+  public static getPlayerByHouse(state: GameStoreState,house: House): Player {
+    return state.players.find(player => player.house === house);
   }
 
   // move related
@@ -127,8 +126,8 @@ export default class StateSelectorService {
 
   // token placement related
 
-  public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
-    const area: Area = StateSelectorService.getAreaByKey(areaKey);
+  public static isAllowedToPlaceOrderToken(state: GameStoreState, house: House, areaKey: AreaKey): boolean {
+    const area: Area = StateSelectorService.getAreaByKey(state, areaKey);
     return area !== null && area.units.length > 0
       && area.controllingHouse === house
       && area.orderToken === null;
@@ -141,7 +140,7 @@ export default class StateSelectorService {
       return area.orderToken.getType();
     });
 
-    return gameStore.getState().currentlyAllowedTokenTypes.filter((type) => {
+    return state.currentlyAllowedTokenTypes.filter((type) => {
       return alreadyPlacedOrderTokens.indexOf(type) === -1;
     });
   }

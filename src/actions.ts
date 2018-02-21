@@ -4,7 +4,7 @@ import Unit from './model/units/units';
 import {AreaKey} from './model/area/areaKey';
 import {OrderToken} from './model/orderToken/orderToken';
 import CombatResult from './model/combatResult';
-import {WesterosCard} from './model/cards/westerosCard';
+import WesterosCard from './model/cards/westerosCard';
 import {GameStoreState} from './gameStoreState';
 
 export enum TypeKeys {
@@ -97,62 +97,3 @@ export type ActionTypes =
   | ExecuteWesterosCardAction
   | PlayWesterosCardAction
   | OtherAction;
-
-export const playWesterosCard = (): PlayWesterosCardAction => ({
-  type: TypeKeys.PLAY_WESTEROS_CARD
-});
-
-export const executeWesterosCard = (card: WesterosCard): ExecuteWesterosCardAction => ({
-  type: TypeKeys.EXECUTE_WESTEROS_CARD,
-  card
-});
-
-export const resolveFight = (combatResult: CombatResult): ResolveFightAction => ({
-  type: TypeKeys.RESOLVE_FIGHT,
-  combatResult
-});
-
-export const executeRaidOrder = (sourceAreaKey: AreaKey, targetAreaKey: AreaKey): ExecuteRaidOrderAction => ({
-  type: TypeKeys.EXECUTE_RAID_ORDER,
-  sourceAreaKey,
-  targetAreaKey
-});
-
-export const skipOrder = (areaKey: AreaKey): SkipOrderAction => ({
-  type: TypeKeys.SKIP_ORDER,
-  areaKey
-});
-export const placeOrder = (areaKey: AreaKey, orderToken: OrderToken): PlaceOrderAction => ({
-  type: TypeKeys.PLACE_ORDER,
-  areaKey,
-  orderToken
-});
-
-export const moveUnits = (source: AreaKey,
-                          target: AreaKey,
-                          units: Unit[] = [],
-                          completeOrder: boolean = true,
-                          establishControl: boolean = false): MoveUnitsAction => ({
-  type: TypeKeys.MOVE_UNITS,
-  source,
-  target,
-  units,
-  completeOrder,
-  establishControl
-});
-
-export const recruitUnits = (areaKey: AreaKey, units: UnitType[] = []): RecruitUnitsAction => ({
-  type: TypeKeys.RECRUIT_UNITS,
-  areaKey,
-  units
-});
-
-export const newGame = (playerSetup: PlayerSetup[]): NewGameAction => ({
-  type: TypeKeys.NEW_GAME,
-  playerSetup
-
-});
-export const loadGame = (state: GameStoreState): LoadGameAction => ({
-  type: TypeKeys.LOAD_GAME,
-  state: state
-});

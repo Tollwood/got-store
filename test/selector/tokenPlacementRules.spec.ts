@@ -7,7 +7,7 @@ import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {gameStore} from '../../src/reducer';
 import {loadGame} from '../../src/actions';
-import {Area} from '../../src/model/area/area';
+import Area from '../../src/model/area/area';
 
 describe('TokenPlacementRules', () => {
 
