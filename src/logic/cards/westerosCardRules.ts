@@ -1,12 +1,17 @@
 import WesterosCard from '../../model/cards/westerosCard';
 import {GameStoreState} from '../../gameStoreState';
-import {GamePhase} from '../../model/gamePhase';
+import {GamePhase, WESTEROS_PHASES} from '../../model/gamePhase';
 
 
 export default class WesterosCardRules {
 
     public static getNextCard(westerosCards: Map<GamePhase, WesterosCard[]>, gamePhase: GamePhase): WesterosCard {
-        return westerosCards.get(gamePhase)[0];
+        if(WESTEROS_PHASES.indexOf(gamePhase) > -1){
+            return westerosCards.get(gamePhase)[0];
+        }
+        else {
+            return null;
+        }
     }
 
     public static shiftCardOnCurrentStack(state: GameStoreState): Map<GamePhase, WesterosCard[]> {
