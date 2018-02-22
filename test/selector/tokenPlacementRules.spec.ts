@@ -36,7 +36,7 @@ describe('TokenPlacementRules', () => {
         areas.set(AreaKey.Winterfell, winterfell);
         let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
         store.dispatch(ActionFactory.loadGame(gameStoreState));
-        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.get(), House.stark, AreaKey.Winterfell);
+        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.getState(), House.stark, AreaKey.Winterfell);
         expect(actual).toBe(false);
     });
 
@@ -46,7 +46,7 @@ describe('TokenPlacementRules', () => {
         areas.set(AreaKey.Winterfell, winterfell);
         let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
         store.dispatch(ActionFactory.loadGame(gameStoreState));
-        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.get(), House.lannister, AreaKey.Winterfell);
+        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.getState(), House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(false);
 
     });
@@ -60,7 +60,7 @@ describe('TokenPlacementRules', () => {
         areas.set(AreaKey.Winterfell, winterfell);
         let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
         store.dispatch(ActionFactory.loadGame(gameStoreState));
-        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.get(), House.lannister, AreaKey.Winterfell);
+        const actual = StateSelectorService.isAllowedToPlaceOrderToken(store.getState(), House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(false);
     });
 

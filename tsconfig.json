@@ -6,6 +6,7 @@
     "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "declarationDir": "dist",
     "experimentalDecorators": true,
     "target": "es5",
     "typeRoots": [

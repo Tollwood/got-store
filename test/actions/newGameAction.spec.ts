@@ -16,9 +16,9 @@ describe('newGameAction', () => {
         const state = store.getState();
         expect(state.areas.size).toEqual(18);
         expect(state.gameRound).toEqual(1);
-        expect(state.gamePhase).toEqual(GamePhase.WESTEROS1);
+        expect(state.gamePhase).toEqual(GamePhase.PLANNING);
         expect(state.winningHouse).toBeNull();
-        expect(state.currentWesterosCard).not.toBeNull();
+        expect(state.currentWesterosCard).toBeNull();
         expect(state.wildlingsCount).toBe(0);
     });
 });

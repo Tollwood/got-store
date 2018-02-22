@@ -16,7 +16,7 @@ export default class GameStateModificationService {
         const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
         const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
         const initialFiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
-        const gamePhase = GamePhase.WESTEROS1;
+        const gamePhase = GamePhase.PLANNING;
         let players = PlayerStateModificationService.initPlayers(playerSetup);
         const areas = AreaInitiator.getInitalState(players.map(player => player.house));
         const westerosCards = CardFactory.getWesterosCards();

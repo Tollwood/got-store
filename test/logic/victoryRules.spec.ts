@@ -31,5 +31,26 @@ describe('VictoryRules', () => {
             const actual = VictoryRules.getWinningHouse(state);
             expect(actual).toBeNull();
         });
+
+        it('should return the house with most castle and Strongholds after 10th round', () => {
+            const player1 = new Player(House.baratheon, 5);
+            const player2 = new Player(House.stark, 5);
+            const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
+            const area1 = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
+            const area2 = new AreaBuilder(AreaKey.Karhold).withHouse(House.baratheon).build();
+            const area3 = new AreaBuilder(AreaKey.Pyke).withHouse(House.baratheon).build();
+            const areas = new Map<AreaKey, Area>();
+            areas.set(area.key, area);
+            areas.set(area1.key, area1);
+            areas.set(area2.key, area2);
+            areas.set(area3.key, area3);
+            const state: GameStoreState = {
+                gameRound: 11,
+                players: [player1, player2],
+                areas: areas
+            };
+            const actual: House = VictoryRules.getWinningHouse(state);
+            expect(actual).toBe(House.stark);
+        });
     });
 });

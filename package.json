@@ -16,7 +16,7 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run rollup",
     "rollup": "rollup --config rollup.config.js",
-    "test": "karma start karma.conf.js --single-run",
+    "test": "rm -rf coverage && karma start karma.conf.js --single-run",
     "lint": "tslint ./**/*.ts -t verbose",
     "lint-fix": "tslint --fix **/*.ts -t verbose"
   },
