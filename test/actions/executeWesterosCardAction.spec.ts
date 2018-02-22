@@ -1,11 +1,11 @@
-import {gameStore} from '../../src/reducer';
-import {executeWesterosCard, loadGame} from '../../src/actions';
 import {GamePhase} from '../../src/model/gamePhase';
-import CardAbilities from '../../src/logic/cards/cardAbilities';
 import WesterosCard from '../../src/model/cards/westerosCard';
 import WesterosCardBuilder from '../westerosCardBuilder';
 import CardFunction from '../../src/model/cards/cardFunction';
 import {GameStoreState} from '../../src/gameStoreState';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
+import {CardAbilities} from '../../src/logic/cards/cardAbilities';
 
 
 describe('executeWesterosCardAction', () => {
@@ -21,16 +21,16 @@ describe('executeWesterosCardAction', () => {
             .build();
 
         const state: GameStoreState = {wildlingsCount: currentWildingCount};
-
-        gameStore.dispatch(loadGame(state));
+        const store = GameStoreFactory.create();
+        store.dispatch(ActionFactory.loadGame(state));
 
         spyOn(CardAbilities, 'shuffleCards').and.returnValue(state);
 
         // when
-        gameStore.dispatch(executeWesterosCard(card));
+        store.dispatch(ActionFactory.executeWesterosCard(card));
 
         // then
-        const newState = gameStore.getState();
+        const newState = store.getState();
 
         expect(newState.wildlingsCount).toBe(currentWildingCount + card.wildling);
         expect(CardAbilities.shuffleCards).toHaveBeenCalledWith(state);

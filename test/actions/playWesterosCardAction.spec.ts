@@ -1,12 +1,15 @@
-import WesterosCardRules from '../../src/logic/cards/westerosCardRules';
 import WesterosCard from '../../src/model/cards/westerosCard';
 import {GamePhase} from '../../src/model/gamePhase';
-import {gameStore} from '../../src/reducer';
-import {loadGame, playWesterosCard} from '../../src/actions';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
 
 
 describe('PlayWesterosCardAction', () => {
 
+    let store;
+    beforeEach(()=>{
+        store = GameStoreFactory.create();
+    });
     describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {
             const expectedCard = new WesterosCard(1, '', '', '', GamePhase.WESTEROS1, 1, []);
@@ -18,12 +21,12 @@ describe('PlayWesterosCardAction', () => {
                 westerosCards,
                 currentWesterosCard: null
             };
-            gameStore.dispatch(loadGame(gameState));
+            store.dispatch(ActionFactory.loadGame(gameState));
 
             // when
-            gameStore.dispatch(playWesterosCard());
+            store.dispatch(ActionFactory.playWesterosCard());
 
-            const newState = gameStore.getState();
+            const newState = store.getState();
             const card: WesterosCard = newState.currentWesterosCard;
             expect(card).toEqual(expectedCard);
             expect(secondCard).toEqual(newState.westerosCards.get(GamePhase.WESTEROS1)[0]);

@@ -5,8 +5,8 @@ import {GamePhase} from '../../model/gamePhase';
 
 export default class WesterosCardRules {
 
-    public static getNextCard(state: GameStoreState): GameStoreState {
-        return state.westerosCards.get(state.gamePhase)[0];
+    public static getNextCard(westerosCards: Map<GamePhase, WesterosCard[]>, gamePhase: GamePhase): WesterosCard {
+        return westerosCards.get(gamePhase)[0];
     }
 
     public static shiftCardOnCurrentStack(state: GameStoreState): Map<GamePhase, WesterosCard[]> {

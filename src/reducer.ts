@@ -78,7 +78,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
         case TypeKeys.PLAY_WESTEROS_CARD:
             newState = {
                 ...state,
-                currentWesterosCard: WesterosCardRules.getNextCard(state),
+                currentWesterosCard: WesterosCardRules.getNextCard(state.westerosCards, state.gamePhase),
                 westerosCards: WesterosCardRules.shiftCardOnCurrentStack(state)
             };
             break;

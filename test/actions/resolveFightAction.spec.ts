@@ -4,12 +4,16 @@ import CombatResult from '../../src/model/combatResult';
 import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';
 import Player from '../../src/model/player/player';
-import {gameStore} from '../../src/reducer';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
 import Area from '../../src/model/area/area';
 import AreaBuilder from '../areaBuilder';
-import {loadGame, resolveFight} from '../../src/actions';
 
 describe('resolveFight', () => {
+    let store;
+    beforeEach(()=>{
+        store = GameStoreFactory.create();
+    });
     it('should eliminate defenders army and establish control over attacking area if attacker wins', () => {
         // given
         const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
@@ -27,13 +31,13 @@ describe('resolveFight', () => {
             ironThroneSuccession,
             currentHouse: House.stark
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
         const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);
 
         // when
-        gameStore.dispatch(resolveFight(combatResult));
+        store.dispatch(ActionFactory.resolveFight(combatResult));
 
-        const currenState = gameStore.getState();
+        const currenState = store.getState();
         const newDefendingArea = currenState.areas.get(defendingArea.key);
         const newAttackingArea = currenState.areas.get(attackingArea.key);
         // then
@@ -54,11 +58,11 @@ describe('resolveFight', () => {
 
         const state = {areas};
 
-        gameStore.dispatch(loadGame(state));
+        store.dispatch(ActionFactory.loadGame(state));
 
         // when
-        gameStore.dispatch(resolveFight(combatResult));
-        const newState = gameStore.getState();
+        store.dispatch(ActionFactory.resolveFight(combatResult));
+        const newState = store.getState();
         // then
         const updatedAttackingArea = newState.areas.get(attackingArea.key);
         const updatedDefendingArea = newState.areas.get(defendingArea.key);

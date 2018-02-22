@@ -4,13 +4,17 @@ import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import Area from '../../src/model/area/area';
-import {gameStore} from '../../src/reducer';
-import {loadGame, recruitUnits} from '../../src/actions';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
 import {GameStoreState} from '../../src/gameStoreState';
 
 
 describe('recruitUnitsAction', () => {
 
+    let store;
+    beforeEach(()=>{
+        store = GameStoreFactory.create();
+    });
     it('should skip recruiting if no units are provided', () => {
         // given
         const ironThroneSuccession = [House.stark, House.lannister];
@@ -29,12 +33,12 @@ describe('recruitUnitsAction', () => {
             currentHouse,
             currentlyAllowedSupply
         };
-        gameStore.dispatch(loadGame(initialState));
+        store.dispatch(ActionFactory.loadGame(initialState));
         // when
-        gameStore.dispatch(recruitUnits(AreaKey.Winterfell));
+        store.dispatch(ActionFactory.recruitUnits(AreaKey.Winterfell));
 
         // then
-        const newState = gameStore.getState();
+        const newState = store.getState();
         expect(newState).not.toBe(initialState);
         expect(newState.areas).not.toBe(initialState.areas);
         expect(newState.areas.get(AreaKey.Winterfell).orderToken).toBeNull();
@@ -62,12 +66,12 @@ describe('recruitUnitsAction', () => {
             currentHouse,
             currentlyAllowedSupply
         };
-        gameStore.dispatch(loadGame(initialState));
+        store.dispatch(ActionFactory.loadGame(initialState));
         // when
-        gameStore.dispatch(recruitUnits(AreaKey.Winterfell, [UnitType.Footman, UnitType.Siege]));
+        store.dispatch(ActionFactory.recruitUnits(AreaKey.Winterfell, [UnitType.Footman, UnitType.Siege]));
 
         // then
-        const newState = gameStore.getState();
+        const newState = store.getState();
         expect(newState).not.toBe(initialState);
         expect(newState.areas).not.toBe(initialState.areas);
         expect(newState.areas.get(AreaKey.Winterfell).orderToken).toBeNull();

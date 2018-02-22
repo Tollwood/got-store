@@ -5,13 +5,18 @@ import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
 import Area from '../../src/model/area/area';
-import {gameStore} from '../../src/reducer';
-import {loadGame, placeOrder} from '../../src/actions';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
 import {OrderToken} from '../../src/model/orderToken/orderToken';
 import {GamePhase} from '../../src/model/gamePhase';
 
 describe('placeOrderAction', () => {
 
+    let store;
+    beforeEach(()=>{
+        store = GameStoreFactory.create();
+    });
+    
     it('should place an orderToken', () => {
         // given
         const areas = new Map<AreaKey, Area>();
@@ -23,11 +28,11 @@ describe('placeOrderAction', () => {
             areas: areas,
             ironThroneSuccession: [House.stark]
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.defend_0)));
-        const newState = gameStore.getState();
+        store.dispatch(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.defend_0)));
+        const newState = store.getState();
 
         // then
         expect(newState).not.toBe(gameStoreState);
@@ -51,11 +56,11 @@ describe('placeOrderAction', () => {
             gamePhase: GamePhase.PLANNING,
             areas: areas
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.raid_0)));
-        const newState = gameStore.getState();
+        store.dispatch(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.raid_0)));
+        const newState = store.getState();
         // then
         expect(newState).not.toBe(gameStoreState);
         const orderToken = newState.areas.get(sourceArea.key).orderToken;

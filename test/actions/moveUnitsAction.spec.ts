@@ -5,15 +5,18 @@ import {House} from '../../src/model/player/house';
 import {AreaKey} from '../..//src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import Area from '../../src/model/area/area';
-import {gameStore} from '../../src/reducer';
-import {loadGame, moveUnits} from '../../src/actions';
 import Player from '../../src/model/player/player';
+import {GameStoreFactory} from '../../src/reducer';
+import {ActionFactory} from '../../src/ActionFactory';
 
 
 describe('moveUnitsAction', () => {
     const playerLannister = new Player(House.lannister, 0);
     const playerStark = new Player(House.stark, 1);
-
+    let store;
+    beforeEach(()=>{
+         store = GameStoreFactory.create();
+    });
     it('should move the units and establish control in targetArea, aswell as moving on to the next player', () => {
         // given
         const horseUnit = new Unit(UnitType.Horse, House.stark);
@@ -34,11 +37,11 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = gameStore.getState().areas;
+        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = store.getState().areas;
 
         // then
         expect(actual).not.toBe(areas);
@@ -49,7 +52,7 @@ describe('moveUnitsAction', () => {
         expect(actual.get(sourceArea.key).controllingHouse).toBe(House.stark);
         expect(actual.get(sourceArea.key).orderToken).toBeDefined();
         expect(actual.get(sourceArea.key).orderToken.getType()).toBeDefined(OrderTokenType.march_special);
-        expect(gameStore.getState().currentHouse).toBe(House.lannister);
+        expect(store.getState().currentHouse).toBe(House.lannister);
     });
     it('should set controllingHouse to null if all units leave source area', () => {
         // given
@@ -70,11 +73,11 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = gameStore.getState().areas;
+        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = store.getState().areas;
         // then
         const actualSource = actual.get(sourceArea.key);
         expect(actualSource).toBe(undefined);
@@ -96,11 +99,11 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(moveUnits(sourceArea.key, targetArea.key, unitsToMove));
-        const actual = gameStore.getState().areas;
+        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove));
+        const actual = store.getState().areas;
         // then
         expect(actual.get(sourceArea.key).orderToken).toBeNull();
     });
@@ -122,15 +125,15 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        gameStore.dispatch(loadGame(gameStoreState));
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
 
         // when
-        gameStore.dispatch(moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = gameStore.getState();
+        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = store.getState();
 
         // then
         expect(actual.areas.get(sourceArea.key).controllingHouse).toBe(House.stark);
-        expect(gameStore.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
+        expect(store.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
     });
 
     it('should return the house that has exactly 7 strongholds/ castle', () => {
@@ -161,9 +164,9 @@ describe('moveUnitsAction', () => {
             areas: areas,
             players: [new Player(House.lannister, 0), new Player(House.stark, 0)]
         };
-        gameStore.dispatch(loadGame(gameStoreState));
-        gameStore.dispatch(moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
-        const newState = gameStore.getState();
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.dispatch(ActionFactory.moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
+        const newState = store.getState();
         expect(newState.winningHouse).toBe(House.stark);
     });
 

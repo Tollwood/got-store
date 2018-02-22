@@ -8,7 +8,7 @@ import {UnitType} from '../../../src/model/units/unitType';
 import {GamePhase} from '../../../src/model/gamePhase';
 import SupplyStateModificationService from '../../../src/logic/gameState/supplyStateModificationService';
 import GameStateModificationService from '../../../src/logic/gameState/gameStateModificationService';
-import CardAbilities from '../../../src/logic/cards/cardAbilities';
+import {CardAbilities} from '../../../src/logic/cards/cardAbilities';
 import AreaBuilder from '../../areaBuilder';
 import WesterosCardBuilder from '../../westerosCardBuilder';
 

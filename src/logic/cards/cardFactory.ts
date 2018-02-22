@@ -18,7 +18,7 @@ export default class CardFactory {
         cards.set(GamePhase.WESTEROS2, []);
         cards.set(GamePhase.WESTEROS3, []);
 
-        Array.from(<any>westerosCardData).forEach((jsonCard: any) => {
+        (<any>westerosCardData).values.forEach((jsonCard: any) => {
             const gamePhase: GamePhase = jsonCard.gamePhase;
             let count = westerosCards[ALL_PHASES.lastIndexOf(gamePhase)].filter((cardId) => {
                 return cardId === jsonCard.id;

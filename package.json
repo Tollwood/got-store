@@ -1,15 +1,16 @@
 {
   "name": "got-store",
   "productName": "got-store",
-  "version": "0.1.1",
-  "author": "Tobias Manger <https://github.com/tollwood>",
+  "version": "0.1.3",
+  "author": "Tobias Manger <tobias.manger>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tollwood/gameOfThrones.git"
+    "url": "https://github.com/Tollwood/got-store"
   },
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": ["./dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "compile": "tsc",
     "clean": "rm -rf dist",

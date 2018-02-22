@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 
+.rpt2_cache
+
 **/*.js.map
 **/*.js
 # dependencies

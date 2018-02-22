@@ -11,7 +11,7 @@ export class AreaInitiator {
 
     public static getInitalState(playingHouses: Array<House>): Map<AreaKey, Area> {
         let areas: Map<AreaKey, Area> = new Map();
-        Array.from(<any>unitsConfigData).forEach((jsonConfig: any) => {
+        (<any>unitsConfigData).values.forEach((jsonConfig: any) => {
             if (playingHouses.indexOf(House[<string>jsonConfig.controllingHouse]) > -1) {
                 const area = this.createArea(jsonConfig);
                 areas.set(area.key, area);
@@ -24,7 +24,7 @@ export class AreaInitiator {
     public static getAreaStats(): Map<AreaKey, AreaStats> {
         let areasStats: Map<AreaKey, AreaStats> = new Map();
 
-        Array.from(<any>areaConfigData).forEach((jsonConfig) => {
+        (<any>areaConfigData).values.forEach((jsonConfig) => {
             const areaStats = this.parseAreas(jsonConfig);
             areasStats.set(areaStats.key, areaStats);
         });
@@ -52,7 +52,7 @@ export class AreaInitiator {
     }
 
     private static addBorderAreas(areaStats: AreaStats) {
-        const jsonConfigArea: any = Array.from(<any>areaConfigData)
+        const jsonConfigArea: any = (<any>areaConfigData).values
             .filter((jsonConfig: any) => {
                 return AreaKey[<string>jsonConfig.key] === areaStats.key;
             })[0];
