@@ -18,7 +18,9 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             };
             break;
         case TypeKeys.LOAD_GAME:
-            newState = {...action.state};
+            newState = {
+                ...action.state,
+                isDegugEnabled: state.isDegugEnabled};
             break;
         case TypeKeys.RECRUIT_UNITS:
             const areasAllowedToRecruit = RecruitingStateModificationService.updateAreasAllowedToRecruit(
@@ -105,13 +107,15 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
     }
     const nextState = GamePhaseService.cleanupBoard(newState);
-    // console.log({action, oldState: nextState, nextState, newState: newState});
+    if(state.isDegugEnabled){
+        console.log({action, oldState: nextState, nextState, newState: newState});
+    }
     return nextState;
 };
 
 class GameStoreFactory {
-    static create(): Store<GameStoreState> {
-        return createStore(gameStateReducer);
+    static create(isDegugEnabled?:boolean): Store<GameStoreState> {
+        return createStore(gameStateReducer,{isDegugEnabled});
     }
 }
 

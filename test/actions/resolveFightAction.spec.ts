@@ -45,14 +45,18 @@ describe('resolveFight', () => {
         store.dispatch(ActionFactory.resolveFight(attackingArea.key, defendingArea.key));
 
         const currenState = store.getState();
-        const newDefendingArea = currenState.areas.get(defendingArea.key);
-        const newAttackingArea = currenState.areas.get(attackingArea.key);
+        const newDefendingArea: Area = currenState.areas.get(defendingArea.key);
+        const newAttackingArea: Area = currenState.areas.get(attackingArea.key);
         // then
         expect(newDefendingArea.controllingHouse).toBe(House.stark);
         expect(newDefendingArea.orderToken).toBeNull();
+        expect(newDefendingArea.units.length).toBe(1);
+        expect(newDefendingArea.units[0].getType()).toBe(UnitType.Horse);
+        expect(newDefendingArea.units[0].getHouse()).toBe(House.stark);
         expect(newAttackingArea.controllingHouse).toBe(House.stark);
         expect(newAttackingArea.orderToken).toBeNull();
         expect(newAttackingArea.units.length).toBe(0);
+        expect(newAttackingArea.controllingHouse).toBe(House.stark);
         expect(currenState.currentHouse).not.toBe(House.stark);
     });
 

@@ -10,7 +10,8 @@ describe('newGameAction', () => {
     it('should remove orderToken and switch to Next Player', () => {
 
         const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
-        const store = GameStoreFactory.create();
+        const isDegugEnabled: boolean = false;
+        const store = GameStoreFactory.create(isDegugEnabled);
         store.dispatch(ActionFactory.newGame(playerSetup));
 
         const state = store.getState();
@@ -21,6 +22,16 @@ describe('newGameAction', () => {
         //expect(state.currentWesterosCard).not.toBeNull();
         expect(state.wildlingsCount).toBe(0);
         //expect(state.currentWesterosCardExecuted.length).toBe(0);
+    });
+
+
+    it('should set isDegugEnabeled to true', () => {
+
+        const isDegugEnabled: boolean = true;
+        const store = GameStoreFactory.create(isDegugEnabled);
+
+        const state = store.getState();
+        expect(state.isDegugEnabled).toBe(true);
     });
 });
 

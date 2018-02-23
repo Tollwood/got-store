@@ -7,6 +7,7 @@ import {OrderTokenType} from './model/orderToken/orderTokenType';
 import WesterosCard from './model/cards/westerosCard';
 
 export class GameStoreState {
+    isDegugEnabled?: boolean;
     areas?: Map<AreaKey, Area>;
 
     gameRound?: number;
