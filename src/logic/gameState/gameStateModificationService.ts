@@ -19,9 +19,6 @@ export default class GameStateModificationService {
         const gamePhase = GamePhase.PLANNING;
         let players = PlayerStateModificationService.initPlayers(playerSetup);
         const areas = AreaInitiator.getInitalState(players.map(player => player.house));
-        const westerosCards = CardFactory.getWesterosCards();
-        const currentWesterosCard = WesterosCardRules.getNextCard(westerosCards, gamePhase);
-
         return {
             areas: areas,
             gameRound: 1,
@@ -37,8 +34,6 @@ export default class GameStateModificationService {
             currentlyAllowedTokenTypes: this.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
             currentlyAllowedSupply: SupplyStateModificationService.updateSupply({players, areas}),
             areasAllowedToRecruit: [],
-            currentWesterosCard,
-            westerosCards,
         };
     }
 }

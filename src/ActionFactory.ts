@@ -27,10 +27,11 @@ export class ActionFactory {
         }
     }
 
-    static resolveFight(combatResult: CombatResult): ResolveFightAction {
+    static resolveFight(sourceAreaKey: AreaKey, targetAreaKey: AreaKey): ResolveFightAction {
         return {
             type: TypeKeys.RESOLVE_FIGHT,
-            combatResult
+            sourceAreaKey: sourceAreaKey,
+            targetAreaKey: targetAreaKey
         }
     }
 

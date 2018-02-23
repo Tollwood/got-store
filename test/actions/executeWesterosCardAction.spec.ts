@@ -8,14 +8,14 @@ import {ActionFactory} from '../../src/ActionFactory';
 import {CardAbilities} from '../../src/logic/cards/cardAbilities';
 
 
-describe('executeWesterosCardAction', () => {
+xdescribe('executeWesterosCardAction', () => {
 
     it('should increase wildlingCount', () => {
         // given
         const currentWildingCount: number = 3;
       var cardFunction: CardFunction  = new CardFunction('shuffleCards', 'description');
       const card: WesterosCard = new WesterosCardBuilder()
-            .gamePhase(GamePhase.WESTEROS1)
+            //.gamePhase(GamePhase.WESTEROS1)
             .selectedFunction(cardFunction)
             .wildling(4)
             .build();

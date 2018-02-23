@@ -14,9 +14,9 @@ export default class CardFactory {
 
     public static getWesterosCards(): Map<GamePhase, WesterosCard[]> {
         const cards = new Map<GamePhase, WesterosCard[]>();
-        cards.set(GamePhase.WESTEROS1, []);
-        cards.set(GamePhase.WESTEROS2, []);
-        cards.set(GamePhase.WESTEROS3, []);
+        //cards.set(GamePhase.WESTEROS1, []);
+        //cards.set(GamePhase.WESTEROS2, []);
+        //cards.set(GamePhase.WESTEROS3, []);
 
         (<any>westerosCardData).values.forEach((jsonCard: any) => {
             const gamePhase: GamePhase = jsonCard.gamePhase;

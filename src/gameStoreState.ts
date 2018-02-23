@@ -25,7 +25,5 @@ export class GameStoreState {
 
     areasAllowedToRecruit?: AreaKey[];
 
-    currentWesterosCard?: WesterosCard;
-    westerosCards?: Map<GamePhase, WesterosCard[]>;
     wildlingsCount?: number;
 }

@@ -18,8 +18,9 @@ describe('newGameAction', () => {
         expect(state.gameRound).toEqual(1);
         expect(state.gamePhase).toEqual(GamePhase.PLANNING);
         expect(state.winningHouse).toBeNull();
-        expect(state.currentWesterosCard).toBeNull();
+        //expect(state.currentWesterosCard).not.toBeNull();
         expect(state.wildlingsCount).toBe(0);
+        //expect(state.currentWesterosCardExecuted.length).toBe(0);
     });
 });
 

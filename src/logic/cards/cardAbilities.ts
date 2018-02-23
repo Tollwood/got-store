@@ -8,15 +8,15 @@ import {GameStoreState} from './../../gameStoreState';
 
 export class CardAbilities {
 
-    public static shuffleCards(state: GameStoreState): GameStoreState {
-        let cards = state.westerosCards.get(state.currentWesterosCard.gamePhase).slice();
-        CardFactory.shuffle(cards);
+   public static shuffleCards(state: GameStoreState): GameStoreState {
+    //    let cards = state.westerosCards.get(state.currentWesterosCard.gamePhase).slice();
+   //     CardFactory.shuffle(cards);
 
         const newState = {
             ...state,
             currentWesterosCard: null,
         };
-        newState.westerosCards.set(state.currentWesterosCard.gamePhase, cards);
+  //      newState.westerosCards.set(state.currentWesterosCard.gamePhase, cards);
         return newState;
     }
 
@@ -24,7 +24,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state),
-            currentWesterosCard: null,
+  //          currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -43,7 +43,7 @@ export class CardAbilities {
     public static nothing(state: GameStoreState): GameStoreState {
         return {
             ...state,
-            currentWesterosCard: null,
+    //        currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -51,7 +51,7 @@ export class CardAbilities {
     public static invluence(state: GameStoreState): GameStoreState {
         return {
             ...state,
-            currentWesterosCard: null,
+     //       currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -60,7 +60,7 @@ export class CardAbilities {
         return {
             ...state,
             players: PlayerStateModificationService.consolidateAllPower(state),
-            currentWesterosCard: null,
+     //       currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -72,7 +72,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedTokenTypes,
-            currentWesterosCard: null,
+      //      currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -84,7 +84,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedTokenTypes,
-            currentWesterosCard: null,
+     //       currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -96,7 +96,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedTokenTypes,
-            currentWesterosCard: null,
+      //      currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -108,7 +108,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedTokenTypes,
-            currentWesterosCard: null,
+       //     currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -120,7 +120,7 @@ export class CardAbilities {
         return {
             ...state,
             currentlyAllowedTokenTypes,
-            currentWesterosCard: null,
+         //   currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
@@ -128,7 +128,7 @@ export class CardAbilities {
     public static wildlingAttack(state: GameStoreState): GameStoreState {
         return {
             ...state,
-            currentWesterosCard: null,
+          //  currentWesterosCard: null,
             gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }

@@ -8,22 +8,31 @@ import {GameStoreFactory} from '../../src/reducer';
 import {ActionFactory} from '../../src/ActionFactory';
 import Area from '../../src/model/area/area';
 import AreaBuilder from '../areaBuilder';
+import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
 describe('resolveFight', () => {
+    const ironThroneSuccession = [House.lannister, House.stark];
     let store;
-    beforeEach(()=>{
+    beforeEach(() => {
         store = GameStoreFactory.create();
     });
     it('should eliminate defenders army and establish control over attacking area if attacker wins', () => {
         // given
-        const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
-        const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
+        const attackingArea = new AreaBuilder(AreaKey.Winterfell)
+            .withHouse(House.stark)
+            .withOrderToken(OrderTokenType.march_special)
+            .withUnits([UnitType.Horse])
+            .build();
+        const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor)
+            .withHouse(House.lannister)
+            .withOrderToken(OrderTokenType.defend_0)
+            .withUnits([UnitType.Footman])
+            .build();
         const playerStark = new Player(House.stark, 5);
         const players = [playerStark, new Player(House.lannister, 5)];
-        const ironThroneSuccession = [House.lannister, House.stark];
         const areas = new Map<AreaKey, Area>();
-        areas.set(AreaKey.Winterfell, attackingArea);
-        areas.set(AreaKey.WhiteHarbor, defendingArea);
+        areas.set(attackingArea.key, attackingArea);
+        areas.set(defendingArea.key, defendingArea);
 
         const gameStoreState = {
             areas: areas,
@@ -32,10 +41,8 @@ describe('resolveFight', () => {
             currentHouse: House.stark
         };
         store.dispatch(ActionFactory.loadGame(gameStoreState));
-        const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);
-
         // when
-        store.dispatch(ActionFactory.resolveFight(combatResult));
+        store.dispatch(ActionFactory.resolveFight(attackingArea.key, defendingArea.key));
 
         const currenState = store.getState();
         const newDefendingArea = currenState.areas.get(defendingArea.key);
@@ -46,22 +53,37 @@ describe('resolveFight', () => {
         expect(newAttackingArea.controllingHouse).toBe(House.stark);
         expect(newAttackingArea.orderToken).toBeNull();
         expect(newAttackingArea.units.length).toBe(0);
+        expect(currenState.currentHouse).not.toBe(House.stark);
     });
-    it('it should elimite attackers army, remove its control over attacking area and remove order Token if defender wins', () => {
+
+    it('should let the defende win if opponents have the same strength', () => {
         // given
-        const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();
-        const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Horse]).build();
-        const combatResult = new CombatResult(attackingArea, defendingArea, 1, 2);
-        const areas: Map<AreaKey, Area> = new Map<AreaKey, Area>();
+        const attackingArea = new AreaBuilder(AreaKey.Winterfell)
+            .withHouse(House.stark)
+            .withOrderToken(OrderTokenType.march_zero)
+            .withUnits([UnitType.Horse])
+            .build();
+        const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor)
+            .withHouse(House.lannister)
+            .withOrderToken(OrderTokenType.defend_0)
+            .withUnits([UnitType.Footman])
+            .build();
+        const playerStark = new Player(House.stark, 5);
+        const players = [playerStark, new Player(House.lannister, 5)];
+        const areas = new Map<AreaKey, Area>();
         areas.set(attackingArea.key, attackingArea);
         areas.set(defendingArea.key, defendingArea);
 
-        const state = {areas};
-
-        store.dispatch(ActionFactory.loadGame(state));
-
+        const gameStoreState = {
+            areas: areas,
+            players,
+            ironThroneSuccession,
+            currentHouse: House.stark
+        };
+        store.dispatch(ActionFactory.loadGame(gameStoreState));
         // when
-        store.dispatch(ActionFactory.resolveFight(combatResult));
+        store.dispatch(ActionFactory.resolveFight(attackingArea.key, defendingArea.key));
+
         const newState = store.getState();
         // then
         const updatedAttackingArea = newState.areas.get(attackingArea.key);
@@ -70,6 +92,39 @@ describe('resolveFight', () => {
         expect(updatedAttackingArea.orderToken).toBeNull();
         expect(updatedAttackingArea.controllingHouse).toBeNull();
         expect(updatedDefendingArea.units.length).toBe(1);
+        expect(newState.currentHouse).not.toBe(House.stark);
+    });
+    it('it should elimite attackers army, remove its control over attacking area and remove order Token if defender wins', () => {
+        // given
+        const attackingArea = new AreaBuilder(AreaKey.Winterfell)
+            .withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withOrderToken(OrderTokenType.march_zero)
+            .build();
+        const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor)
+            .withHouse(House.lannister)
+            .withUnits([UnitType.Horse])
+            .withOrderToken(OrderTokenType.defend_0)
+            .build();
+        const areas: Map<AreaKey, Area> = new Map<AreaKey, Area>();
+        areas.set(attackingArea.key, attackingArea);
+        areas.set(defendingArea.key, defendingArea);
+
+        const state = {areas, ironThroneSuccession, players: []};
+
+        store.dispatch(ActionFactory.loadGame(state));
+
+        // when
+        store.dispatch(ActionFactory.resolveFight(attackingArea.key, defendingArea.key));
+        const newState = store.getState();
+        // then
+        const updatedAttackingArea = newState.areas.get(attackingArea.key);
+        const updatedDefendingArea = newState.areas.get(defendingArea.key);
+        expect(updatedAttackingArea.units.length).toBe(0);
+        expect(updatedAttackingArea.orderToken).toBeNull();
+        expect(updatedAttackingArea.controllingHouse).toBeNull();
+        expect(updatedDefendingArea.units.length).toBe(1);
+        expect(newState.currentHouse).not.toBe(House.stark);
 
     });
 });
