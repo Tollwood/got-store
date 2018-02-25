@@ -1,12 +1,12 @@
 import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';
-import StateSelectorService from '../../src/selector/stateSelectorService';
-import SupplyStateModificationService from '../../src/logic/gameState/supplyStateModificationService';
-import Player from '../../src/model/player/player';
-import AreaBuilder from '../areaBuilder';
+import {StateSelectorService} from '../../src/selector/stateSelectorService';
+import {SupplyStateModificationService} from '../../src/logic/gameState/supplyStateModificationService';
+import {Player} from '../../src/model/player/player';
+import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../..//src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
-import Area from '../../src/model/area/area';
+import {Area} from '../../src/model/area/area';
 import {AreaStatsService} from '../../src/logic/area/areaStatsService';
 
 

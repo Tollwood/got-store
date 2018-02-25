@@ -1,13 +1,12 @@
-import Area from '../../model/area/area';
+import { Area} from '../../model/area/area';
 import {AreaKey} from '../../model/area/areaKey';
-import AreaStats from '../../model/area/areaStats';
 import {OrderToken} from '../../model/orderToken/orderToken';
-import Unit from '../../model/units/units';
+import { Unit} from '../../model/units/units';
 import {UnitType} from '../../model/units/unitType';
-import StateSelectorService from '../../selector/stateSelectorService';
-import {GameStoreState} from '../../state';
+import {StateSelectorService } from '../../selector/stateSelectorService';
+import {State} from '../../state';
 
-export default class AreaStateModificationService {
+class AreaStateModificationService {
 
     public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): Map<AreaKey, Area> {
         const newAreaMap = new Map<AreaKey, Area>();
@@ -95,10 +94,9 @@ export default class AreaStateModificationService {
             return null;
         }
         const sourceArea = oldArea.copy();
-        let remainingUnits = sourceArea.units.filter((sourceUnit) => {
+        sourceArea.units = sourceArea.units.filter((sourceUnit) => {
             return movingUnits.indexOf(sourceUnit) === -1;
         });
-        sourceArea.units = remainingUnits;
         if (sourceArea.units.length === 0) {
             sourceArea.controllingHouse = null;
         }
@@ -121,7 +119,7 @@ export default class AreaStateModificationService {
 
     }
 
-    public static updateAfterFight(state: GameStoreState, areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
+    public static updateAfterFight(state: State, areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
 
         const newAreasMap = new Map<AreaKey, Area>();
         areas.forEach((area) => {
@@ -150,3 +148,5 @@ export default class AreaStateModificationService {
         return newAreasMap;
     }
 }
+
+export {AreaStateModificationService}

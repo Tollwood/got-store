@@ -1,19 +1,19 @@
-import AreaBuilder from '../areaBuilder';
+import {AreaBuilder} from '../areaBuilder';
 import {UnitType} from '../../src/model/units/unitType';
 import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
-import Area from '../../src/model/area/area';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';
-import {GameStoreState} from '../../src/state';
+import {Area} from '../../src/model/area/area';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
+import {State} from '../../src/state';
 
 
 describe('recruitUnitsAction', () => {
 
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create([]);
+        store = GameFactory.create([]);
     });
     it('should skip recruiting if no units are provided', () => {
         // given
@@ -26,16 +26,16 @@ describe('recruitUnitsAction', () => {
         const currentlyAllowedSupply = new Map<House, number>();
         currentlyAllowedSupply.set(House.stark, 0);
         currentlyAllowedSupply.set(House.lannister, 0);
-        const initialState: GameStoreState = {
+        const initialState: State = {
             ironThroneSuccession,
             areas,
             areasAllowedToRecruit,
             currentHouse,
             currentlyAllowedSupply
         };
-        store.dispatch(ActionFactory.loadGame(initialState));
+        store.execute(ActionFactory.loadGame(initialState));
         // when
-        store.dispatch(ActionFactory.recruitUnits(AreaKey.Winterfell));
+        store.execute(ActionFactory.recruitUnits(AreaKey.Winterfell));
 
         // then
         const newState = store.getState();
@@ -59,16 +59,16 @@ describe('recruitUnitsAction', () => {
         const currentHouse = House.stark;
         areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
         areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).build());
-        const initialState: GameStoreState = {
+        const initialState: State = {
             ironThroneSuccession,
             areas,
             areasAllowedToRecruit,
             currentHouse,
             currentlyAllowedSupply
         };
-        store.dispatch(ActionFactory.loadGame(initialState));
+        store.execute(ActionFactory.loadGame(initialState));
         // when
-        store.dispatch(ActionFactory.recruitUnits(AreaKey.Winterfell, [UnitType.Footman, UnitType.Siege]));
+        store.execute(ActionFactory.recruitUnits(AreaKey.Winterfell, [UnitType.Footman, UnitType.Siege]));
 
         // then
         const newState = store.getState();

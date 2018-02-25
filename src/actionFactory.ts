@@ -3,15 +3,15 @@ import {
     PlayWesterosCardAction, RecruitUnitsAction, ResolveFightAction,
     SkipOrderAction, TypeKeys
 } from './actions/actions';
-import {GameStoreState} from './state';
-import Unit from './model/units/units';
-import WesterosCard from './model/cards/westerosCard';
+import {State} from './state';
+import {Unit} from './model/units/units';
+import {WesterosCard} from './model/cards/westerosCard';
 import {AreaKey} from './model/area/areaKey';
 import {OrderToken} from './model/orderToken/orderToken';
-import PlayerSetup from './model/player/playerSetup';
+import {PlayerSetup} from './model/player/playerSetup';
 import {UnitType} from './model/units/unitType';
 
-export class ActionFactory {
+class ActionFactory {
 
     static playWesterosCard(): PlayWesterosCardAction {
         return {
@@ -88,10 +88,12 @@ export class ActionFactory {
         }
     }
 
-    static loadGame(state: GameStoreState): LoadGameAction {
+    static loadGame(state: State): LoadGameAction {
         return {
             type: TypeKeys.LOAD_GAME,
             state: state
         }
     }
 }
+
+export {ActionFactory}

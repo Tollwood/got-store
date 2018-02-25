@@ -3,7 +3,7 @@ xdescribe('PlayWesterosCardAction', () => {
 
   //  let store;
     beforeEach(()=>{
-//        store = GameStoreFactory.create([]);
+//        store = GameFactory.create([]);
     });
    /* describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {
@@ -16,10 +16,10 @@ xdescribe('PlayWesterosCardAction', () => {
                 westerosCards,
                 currentWesterosCard: null
             };
-            store.dispatch(ActionFactory.loadGame(gameState));
+            store.execute(ActionFactory.loadGame(gameState));
 
             // when
-            store.dispatch(ActionFactory.playWesterosCard());
+            store.execute(ActionFactory.playWesterosCard());
 
             const newState = store.getState();
             const card: WesterosCard = newState.currentWesterosCard;

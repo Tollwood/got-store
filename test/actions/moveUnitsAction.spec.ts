@@ -1,13 +1,13 @@
-import AreaBuilder from '../areaBuilder';
-import Unit from '../../src/model/units/units';
+import {AreaBuilder} from '../areaBuilder';
+import {Unit} from '../../src/model/units/units';
 import {UnitType} from '../../src/model/units/unitType';
 import {House} from '../../src/model/player/house';
 import {AreaKey} from '../..//src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
-import Area from '../../src/model/area/area';
-import Player from '../../src/model/player/player';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';
+import {Area} from '../../src/model/area/area';
+import {Player} from '../../src/model/player/player';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
 
 
 describe('moveUnitsAction', () => {
@@ -15,7 +15,7 @@ describe('moveUnitsAction', () => {
     const playerStark = new Player(House.stark, 1);
     let store;
     beforeEach(()=>{
-         store = GameStoreFactory.create([]);
+         store = GameFactory.create([]);
     });
     it('should move the units and establish control in targetArea, aswell as moving on to the next player', () => {
         // given
@@ -37,10 +37,10 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
         const actual = store.getState().areas;
 
         // then
@@ -73,10 +73,10 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
         const actual = store.getState().areas;
         // then
         const actualSource = actual.get(sourceArea.key);
@@ -99,10 +99,10 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove));
+        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove));
         const actual = store.getState().areas;
         // then
         expect(actual.get(sourceArea.key).orderToken).toBeNull();
@@ -125,10 +125,10 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
         const actual = store.getState();
 
         // then
@@ -164,8 +164,8 @@ describe('moveUnitsAction', () => {
             areas: areas,
             players: [new Player(House.lannister, 0), new Player(House.stark, 0)]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
-        store.dispatch(ActionFactory.moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
+        store.execute(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
         const newState = store.getState();
         expect(newState.winningHouse).toBe(House.stark);
     });

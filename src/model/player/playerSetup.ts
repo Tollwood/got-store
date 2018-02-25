@@ -1,5 +1,5 @@
 import {House} from './house';
-export default class PlayerSetup {
+class PlayerSetup {
 
     private _house: House;
     private _name: string;
@@ -23,3 +23,4 @@ export default class PlayerSetup {
         return this._house;
     }
 }
+export {PlayerSetup}

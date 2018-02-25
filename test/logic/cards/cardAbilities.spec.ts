@@ -1,16 +1,16 @@
 import {OrderTokenType} from '../../../src/model/orderToken/orderTokenType';
-import WesterosCard from '../../../src/model/cards/westerosCard';
+import {WesterosCard} from '../../../src/model/cards/westerosCard';
 import {AreaKey} from '../../../src/model/area/areaKey';
 import {House} from '../../../src/model/player/house';
-import Player from '../../../src/model/player/player';
-import Area from '../../../src/model/area/area';
+import {Player} from '../../../src/model/player/player';
+import {Area} from '../../../src/model/area/area';
 import {UnitType} from '../../../src/model/units/unitType';
 import {GamePhase} from '../../../src/model/gamePhase';
-import SupplyStateModificationService from '../../../src/logic/gameState/supplyStateModificationService';
-import GameStateModificationService from '../../../src/logic/gameState/gameStateModificationService';
+import {SupplyStateModificationService} from '../../../src/logic/gameState/supplyStateModificationService';
+import {GameStateModificationService} from '../../../src/logic/gameState/gameStateModificationService';
 import {CardAbilities} from '../../../src/logic/cards/cardAbilities';
-import AreaBuilder from '../../areaBuilder';
-import WesterosCardBuilder from '../../westerosCardBuilder';
+import {AreaBuilder} from '../../areaBuilder';
+import {WesterosCardBuilder} from '../../westerosCardBuilder';
 
 
 xdescribe('CardAbilities', () => {

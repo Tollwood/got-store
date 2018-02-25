@@ -1,20 +1,20 @@
-import PossibleMove from './possibleMove';
-import {Store} from 'redux';
-import {GameStoreState} from '../state';
+import { PossibleMove } from './possibleMove';
+import {State} from '../state';
 import {House} from '../model/player/house';
 import {GamePhase} from '../model/gamePhase';
-import {ActionFactory} from '../ActionFactory';
-import Area from '../model/area/area';
+import {ActionFactory} from '../actionFactory';
+import {Area} from '../model/area/area';
 import {AreaStatsService} from '../logic/area/areaStatsService';
 import {OrderTokenType} from '../model/orderToken/orderTokenType';
 import {AreaKey} from '../model/area/areaKey';
 import {OrderToken} from '../model/orderToken/orderToken';
-import StateSelectorService from '../selector/stateSelectorService';
+import { StateSelectorService } from '../selector/stateSelectorService';
+import { Game } from '../game';
 
-export default class AiCalculator {
+class AiCalculator {
 
-    public static executeOrder(store: Store<GameStoreState>, house: House) {
-        const state = store.getState();
+    public static executeOrder(game: Game, house: House) {
+        const state = game.getState();
         const shouldDoSomething = state.currentHouse === house && (state.gamePhase === GamePhase.ACTION_RAID || state.gamePhase === GamePhase.ACTION_MARCH);
         if (!shouldDoSomething) {
             return
@@ -26,14 +26,14 @@ export default class AiCalculator {
                 let bestMove = AiCalculator.getBestMove(state, house, sourceArea, [sourceArea.orderToken.getType()]);
                 const targetArea = state.areas.get(bestMove.targetAreaKey);
                 if (bestMove === null) {
-                    store.dispatch(ActionFactory.skipOrder(sourceArea.key));
+                    game.execute(ActionFactory.skipOrder(sourceArea.key));
                     return;
                 }
                 if (targetArea && targetArea.units.length > 0 && targetArea.controllingHouse !== sourceArea.controllingHouse) {
-                    store.dispatch(ActionFactory.resolveFight(sourceArea.key, targetArea.key));
+                    game.execute(ActionFactory.resolveFight(sourceArea.key, targetArea.key));
                     return;
                 }
-                store.dispatch(ActionFactory.moveUnits(sourceArea.key, bestMove.targetAreaKey, sourceArea.units, true, AiCalculator.shouldEstablishControl(sourceArea)));
+                game.execute(ActionFactory.moveUnits(sourceArea.key, bestMove.targetAreaKey, sourceArea.units, true, AiCalculator.shouldEstablishControl(sourceArea)));
                 return;
             }
         }
@@ -41,47 +41,47 @@ export default class AiCalculator {
         if (state.gamePhase === GamePhase.ACTION_RAID) {
             let areasWithRaidToken = this.getAreasForHouseWithToken(Array.from(state.areas.values()), house, StateSelectorService.RAID_ORDER_TOKENS);
             if (areasWithRaidToken.length > 0) {
-                store.dispatch(ActionFactory.skipOrder(areasWithRaidToken[0].key));
+                game.execute(ActionFactory.skipOrder(areasWithRaidToken[0].key));
             }
         }
 
     }
 
-    public static recruit(store: Store<GameStoreState>, house: House): Area {
+    public static recruit(game: Game, house: House): Area {
 
-        const state = store.getState();
+        const state = game.getState();
         const shouldDoSomething = state.areasAllowedToRecruit.length > 0
             && state.currentHouse === house
-            && StateSelectorService.getAreasAllowedToRecruit(store.getState(), house).length > 0;
+            && StateSelectorService.getAreasAllowedToRecruit(game.getState(), house).length > 0;
         if (!shouldDoSomething) {
             return;
         }
-        const areas = StateSelectorService.getAreasAllowedToRecruit(store.getState(), house);
-        const possibleAreasToRecruit = areas.filter((a) => {
+        const areas = StateSelectorService.getAreasAllowedToRecruit(game.getState(), house);
+        const possibleAreagamecruit = areas.filter((a) => {
             return house === a.controllingHouse;
         });
-        if (possibleAreasToRecruit.length > 0) {
-            store.dispatch(ActionFactory.recruitUnits(possibleAreasToRecruit[0].key));
+        if (possibleAreagamecruit.length > 0) {
+            game.execute(ActionFactory.recruitUnits(possibleAreagamecruit[0].key));
         }
         return null;
     }
 
-    public static placeAllOrderTokens(store: Store<GameStoreState>, house: House) {
-        const shouldDoSomething = store.getState().gamePhase === GamePhase.PLANNING;
+    public static placeAllOrderTokens(game: Game, house: House) {
+        const shouldDoSomething = game.getState().gamePhase === GamePhase.PLANNING;
         if (!shouldDoSomething) {
             return;
         }
-        const state = store.getState();
+        const state = game.getState();
         let availableOrderToken = StateSelectorService.getPlacableOrderTokenTypes(state, house);
         let areasToPlaceAToken = Array.from(state.areas.values()).filter((area: Area) => {
             return StateSelectorService.isAllowedToPlaceOrderToken(state, house, area.key);
         });
-        let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area) => {
+        let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area:Area) => {
             return this.getBestMove(state, house, area, availableOrderToken);
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
-            store.dispatch(ActionFactory.placeOrder(bestMove.sourceAreaKey, new OrderToken(house, bestMove.orderTokenType)));
+            game.execute(ActionFactory.placeOrder(bestMove.sourceAreaKey, new OrderToken(house, bestMove.orderTokenType)));
         }
     }
 
@@ -89,7 +89,7 @@ export default class AiCalculator {
         return area !== undefined && area.controllingHouse !== house && area.units.length > 0;
     }
 
-    private static getBestMove(state: GameStoreState, currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
+    private static getBestMove(state: State, currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
         let allPossibleMoves = this.getAllPossibleMoves(state, currentHouse, area, availableOrderToken);
         if (allPossibleMoves.length === 0) {
             return null;
@@ -107,7 +107,7 @@ export default class AiCalculator {
         });
     }
 
-    private static getAllPossibleMoves(state: GameStoreState, currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
+    private static getAllPossibleMoves(state: State, currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
         let possibleMoves = [];
         availableOrderToken.forEach((orderTokenType) => {
             switch (orderTokenType) {
@@ -151,7 +151,7 @@ export default class AiCalculator {
         return area === undefined || (area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
     }
 
-    private static calculateValueForDefendingOrders(state: GameStoreState, area: Area, currentHouse: House, factor: number): number {
+    private static calculateValueForDefendingOrders(state: State, area: Area, currentHouse: House, factor: number): number {
         let value = 0;
         AreaStatsService.getInstance().areaStats.get(area.key).borders
             .forEach((borderAreaKey) => {
@@ -172,7 +172,7 @@ export default class AiCalculator {
         return 0;
     }
 
-    private static calculateValueForRaidOrders(state: GameStoreState, area: Area, currentHouse: House, factor: number) {
+    private static calculateValueForRaidOrders(state: State, area: Area, currentHouse: House, factor: number) {
 
         let value = 0;
         AreaStatsService.getInstance().areaStats.get(area.key).borders
@@ -185,7 +185,7 @@ export default class AiCalculator {
         return value;
     }
 
-    private static calculateValueForMarchOrders(state: GameStoreState, sourceAreaKey: AreaKey, targetAreaKey: AreaKey, currentHouse: House) {
+    private static calculateValueForMarchOrders(state: State, sourceAreaKey: AreaKey, targetAreaKey: AreaKey, currentHouse: House) {
         let value = 0;
         const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceAreaKey);
         let numberOfEnemiesAtBorder = sourceAreaStats.borders
@@ -217,3 +217,4 @@ export default class AiCalculator {
     }
 
 }
+export {AiCalculator}

@@ -1,12 +1,12 @@
 import {AreaKey} from './model/area/areaKey';
-import Area from './model/area/area';
+import {Area} from './model/area/area';
 import {GamePhase} from './model/gamePhase';
 import {House} from './model/player/house';
-import Player from './model/player/player';
+import {Player} from './model/player/player';
 import {OrderTokenType} from './model/orderToken/orderTokenType';
-import WesterosCard from './model/cards/westerosCard';
+import {WesterosCard} from './model/cards/westerosCard';
 
-export class GameStoreState {
+class State {
     isDebugEnabled?: boolean;
     areas?: Map<AreaKey, Area>;
 
@@ -28,3 +28,5 @@ export class GameStoreState {
 
     wildlingsCount?: number;
 }
+
+export {State}

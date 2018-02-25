@@ -1,6 +1,6 @@
 import {AreaKey} from './areaKey';
 
-export default class AreaStats {
+class AreaStats {
 
     private _key: AreaKey;
     private _consolidatePower: number;
@@ -64,3 +64,5 @@ export default class AreaStats {
         return new AreaStats(this.key, this.consolidatePower, this.harbor, this.castle, this.stronghold, this.isLandArea, this.supply, this.borders);
     }
 }
+
+export {AreaStats}

@@ -1,9 +1,9 @@
-import WesterosCard from '../../src/model/cards/westerosCard';
-import WesterosCardBuilder from '../westerosCardBuilder';
-import CardFunction from '../../src/model/cards/cardFunction';
-import {GameStoreState} from '../../src/state';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';
+import {WesterosCard} from '../../src/model/cards/westerosCard';
+import {WesterosCardBuilder} from '../westerosCardBuilder';
+import {CardFunction} from '../../src/model/cards/cardFunction';
+import {State} from '../../src/state';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
 import {CardAbilities} from '../../src/logic/cards/cardAbilities';
 
 
@@ -19,17 +19,17 @@ xdescribe('executeWesterosCardAction', () => {
             .wildling(4)
             .build();
 
-        const state: GameStoreState = {wildlingsCount: currentWildingCount};
-        const store = GameStoreFactory.create([]);
-        store.dispatch(ActionFactory.loadGame(state));
+        const state: State = {wildlingsCount: currentWildingCount};
+        const game = GameFactory.create([]);
+        game.execute(ActionFactory.loadGame(state));
 
         spyOn(CardAbilities, 'shuffleCards').and.returnValue(state);
 
         // when
-        store.dispatch(ActionFactory.executeWesterosCard(card));
+        game.execute(ActionFactory.executeWesterosCard(card));
 
         // then
-        const newState = store.getState();
+        const newState = game.getState();
 
         expect(newState.wildlingsCount).toBe(currentWildingCount + card.wildling);
         expect(CardAbilities.shuffleCards).toHaveBeenCalledWith(state);

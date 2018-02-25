@@ -1,6 +1,6 @@
 import {House} from './house';
 
-export default class Player {
+class Player {
 
     private _house: House;
     private _powerToken: number;
@@ -28,3 +28,5 @@ export default class Player {
         return new Player(this.house, this.powerToken);
     }
 }
+
+export {Player}

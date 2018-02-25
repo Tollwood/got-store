@@ -1,10 +1,10 @@
-import AreaBuilder from '../areaBuilder';
+import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
-import Player from '../../src/model/player/player';
+import {Player} from '../../src/model/player/player';
 import {House} from '../../src/model/player/house';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';
-import Area from '../../src/model/area/area';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
+import {Area} from '../../src/model/area/area';
 
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {GamePhase} from '../../src/model/gamePhase';
@@ -16,7 +16,7 @@ describe('executeRaidOrder', () => {
     let playerLannister: Player;
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create([]);
+        store = GameFactory.create([]);
         playerStark = new Player(House.stark, 0);
         playerLannister = new Player(House.lannister, 0);
     });
@@ -49,9 +49,9 @@ describe('executeRaidOrder', () => {
             gamePhase: GamePhase.ACTION_RAID,
             ironThroneSuccession: [House.stark]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
-        store.dispatch(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
+        store.execute(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
         const newState = store.getState();
         expect(newState).not.toBe(gameStoreState);
         expect(newState.areas.get(sourceArea.key)).not.toBe(sourceArea);
@@ -76,8 +76,8 @@ describe('executeRaidOrder', () => {
             gamePhase: GamePhase.ACTION_RAID,
             ironThroneSuccession: [House.stark]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
-        store.dispatch(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
+        store.execute(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
         const newState = store.getState();
         expect(newState).not.toBe(gameStoreState);
 
@@ -102,9 +102,9 @@ describe('executeRaidOrder', () => {
             gamePhase: GamePhase.ACTION_RAID,
             ironThroneSuccession: [House.stark]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
-        store.dispatch(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
+        store.execute(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
         expect(playerLannister.powerToken).toEqual(1);
         expect(playerStark.powerToken).toEqual(4);
     });

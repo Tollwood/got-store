@@ -1,9 +1,9 @@
-import WesterosCard from '../../model/cards/westerosCard';
-import {GameStoreState} from '../../state';
+import {WesterosCard} from '../../model/cards/westerosCard';
+import {State} from '../../state';
 import {GamePhase} from '../../model/gamePhase';
 
 
-export default class WesterosCardRules {
+class WesterosCardRules {
 
     public static getNextCard(westerosCards: Map<GamePhase, WesterosCard[]>, gamePhase: GamePhase): WesterosCard {
         /*if(WESTEROS_PHASES.indexOf(gamePhase) > -1){
@@ -15,7 +15,7 @@ export default class WesterosCardRules {
         return null;
     }
 
-   /* public static shiftCardOnCurrentStack(state: GameStoreState): Map<GamePhase, WesterosCard[]> {
+   /* public static shiftCardOnCurrentStack(state: State): Map<GamePhase, WesterosCard[]> {
         const westerosCards = state.westerosCards.get(state.gamePhase);
         let cardToPlay: WesterosCard = westerosCards.shift();
         westerosCards.push(cardToPlay);

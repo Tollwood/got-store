@@ -1,4 +1,4 @@
-import GamePhaseService from '../../src/logic/gamePhaseService';
+import {GamePhaseService} from '../../src/logic/gamePhaseService';
 
 describe('GamePhaseService', () => {
 
@@ -54,7 +54,7 @@ describe('GamePhaseService', () => {
             // };
             //
             // // when
-            // // gameStore.dispatch(nextPhase());
+            // // gamestore.execute(nextPhase());
             // const newState = gameStore.getState();
             //
             // // then
@@ -96,7 +96,7 @@ describe('GamePhaseService', () => {
             //     players: [new Player(House.stark, 0), new Player(House.lannister, 0)],
             //     areas: areas
             // };
-            // //  gameStore.dispatch(nextPhase());
+            // //  gamestore.execute(nextPhase());
             // expect(gameStore.getState().winningHouse).toBe(House.lannister);
         });
 
@@ -117,7 +117,7 @@ describe('GamePhaseService', () => {
             // };
             //
             // // when
-            // //  gameStore.dispatch(nextPhase());
+            // //  gamestore.execute(nextPhase());
             // const newState = gameStore.getState();
             //
             // // then

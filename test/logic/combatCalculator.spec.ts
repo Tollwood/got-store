@@ -1,5 +1,5 @@
-import CombatCalculator from '../../src/logic/combatCalculator';
-import AreaBuilder from '../areaBuilder';
+import {CombatCalculator} from '../../src/logic/combatCalculator';
+import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';

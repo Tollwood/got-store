@@ -5,7 +5,7 @@
 /tmp
 /out-tsc
 
-.rpt2_cache
+.rpt2_cache/**
 
 **/*.js.map
 **/*.js

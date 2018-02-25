@@ -1,9 +1,9 @@
 import * as westerosCardData from './westeroscard.json';
-import WesterosCard from '../../model/cards/westerosCard';
-import CardFunction from '../../model/cards/cardFunction';
+import { WesterosCard } from '../../model/cards/westerosCard';
+import {CardFunction } from '../../model/cards/cardFunction';
 import {ALL_PHASES, GamePhase} from '../../model/gamePhase';
 
-export default class CardFactory {
+class CardFactory {
 
     public static shuffle(cards: Array<any>) {
         for (let i = cards.length; i; i--) {
@@ -49,3 +49,5 @@ let westerosCards = [
     [6, 6, 7, 8, 8, 8, 9, 9, 9, 10],
     [11, 11, 12, 13, 14, 15, 15, 15, 16, 17]
 ];
+
+export {CardFactory}

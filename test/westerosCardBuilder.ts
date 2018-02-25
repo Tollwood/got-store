@@ -1,8 +1,8 @@
-import WesterosCard from '../src/model/cards/westerosCard';
+import {WesterosCard} from '../src/model/cards/westerosCard';
 import {GamePhase} from '../src/model/gamePhase';
-import CardFunction from '../src/model/cards/cardFunction';
+import {CardFunction} from '../src/model/cards/cardFunction';
 
-export default class WesterosCardBuilder {
+class WesterosCardBuilder {
     private _gamePhase: GamePhase;
     private _wildling: number;
     private _selectedFunction: CardFunction;
@@ -29,3 +29,5 @@ export default class WesterosCardBuilder {
 
     }
 }
+
+export {WesterosCardBuilder}

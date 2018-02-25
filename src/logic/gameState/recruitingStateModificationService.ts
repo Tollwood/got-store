@@ -1,11 +1,11 @@
 import {AreaKey} from '../../model/area/areaKey';
-import StateSelectorService from '../../selector/stateSelectorService';
-import {GameStoreState} from '../../state';
+import { StateSelectorService} from '../../selector/stateSelectorService';
+import {State} from '../../state';
 import {AreaStatsService} from '../area/areaStatsService';
 
-export default class RecruitingStateModificationService {
+class RecruitingStateModificationService {
 
-    public static calculateAreasAllowedToRecruit(state: GameStoreState): AreaKey[] {
+    public static calculateAreasAllowedToRecruit(state: State): AreaKey[] {
         return Array.from(state.areas.values()).filter((area) => {
             return area.controllingHouse !== null
                 && AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold()
@@ -21,3 +21,5 @@ export default class RecruitingStateModificationService {
         return newAreasAllowedToRecruit;
     }
 }
+
+export {RecruitingStateModificationService}

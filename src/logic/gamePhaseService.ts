@@ -1,21 +1,21 @@
 import {ALL_PHASES, GamePhase} from '../model/gamePhase';
 import {House} from '../model/player/house';
 import {AreaKey} from '../model/area/areaKey';
-import Area from '../model/area/area';
-import {GameStoreState} from '../state';
-import VictoryRules from './victoryRules';
-import PlayerStateModificationService from './gameState/playerStateModificationService';
-import AreaModificationService from './gameState/areaStateModificationService';
-import GameStateModificationService from './gameState/gameStateModificationService';
-import StateSelectorService from '../selector/stateSelectorService';
+import {Area} from '../model/area/area';
+import {State} from '../state';
+import {VictoryRules} from './victoryRules';
+import {PlayerStateModificationService} from './gameState/playerStateModificationService';
+import {AreaStateModificationService } from './gameState/areaStateModificationService';
+import {GameStateModificationService } from './gameState/gameStateModificationService';
+import {StateSelectorService} from '../selector/stateSelectorService';
 
-export default class GamePhaseService {
+class GamePhaseService {
 
-    public static getNextPhase(state: GameStoreState, updatedAreas: Area[]): GamePhase {
+    public static getNextPhase(state: State, updatedAreas: Area[]): GamePhase {
         return this.getNextGamePhaseWithPendingActions(updatedAreas, state.gamePhase);
     }
 
-    public static getNextHouse(state: GameStoreState, nextGamePhase: GamePhase) {
+    public static getNextHouse(state: State, nextGamePhase: GamePhase) {
         if (state.gamePhase === nextGamePhase) {
             return this.getNextHouseWithPendingActions(state.ironThroneSuccession,
                 Array.from(state.areas.values()),
@@ -25,12 +25,12 @@ export default class GamePhaseService {
         return state.ironThroneSuccession[0];
     }
 
-    public static cleanupBoard(state: GameStoreState) {
+    public static cleanupBoard(state: State) {
         if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
                 ...state,
-                areas: AreaModificationService.removeAllRemainingTokens(Array.from(state.areas.values())),
+                areas: AreaStateModificationService.removeAllRemainingTokens(Array.from(state.areas.values())),
                 players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state.players, Array.from(state.areas.values())),
                 gamePhase: GamePhase.PLANNING,
                 gameRound: state.gameRound + 1,
@@ -43,7 +43,7 @@ export default class GamePhaseService {
     }
 
     // TODO should be integrated in the other two methods getNextPhase and getNextHouse
-    public static updateGamePhaseAfterRecruiting(state: GameStoreState, areaKey?: AreaKey) {
+    public static updateGamePhaseAfterRecruiting(state: State, areaKey?: AreaKey) {
         const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
         return {
             currentHouse: nextHouseToRecruit !== null ? nextHouseToRecruit : state.ironThroneSuccession[0],
@@ -97,7 +97,7 @@ export default class GamePhaseService {
         return area.units.length === 0;
     }
 
-    private static getNextHouseToRecruit(state: GameStoreState, areaKey: AreaKey) {
+    private static getNextHouseToRecruit(state: State, areaKey: AreaKey) {
         let possibleNextHouse = this.nextHouse(state.ironThroneSuccession, state.currentHouse);
         while (possibleNextHouse !== state.currentHouse) {
             if (this.isAllowedToRecruit(state, possibleNextHouse)) {
@@ -112,7 +112,7 @@ export default class GamePhaseService {
         return null;
     }
 
-    private static isAllowedToRecruit(state: GameStoreState, house: House, areaKey?: AreaKey) {
+    private static isAllowedToRecruit(state: State, house: House, areaKey?: AreaKey) {
         const areasAllowedToRecruit = StateSelectorService.getAreasAllowedToRecruit(state, house).map(area => {
             return area.key;
         });
@@ -150,3 +150,5 @@ export default class GamePhaseService {
         return this.getNextHouseWithPendingActions(ironThroneSuccession, areas, gamePhase, nextHouse);
     }
 }
+
+export {GamePhaseService}

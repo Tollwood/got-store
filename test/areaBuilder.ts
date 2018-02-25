@@ -1,12 +1,12 @@
-import Area from '../src/model/area/area';
+import { Area } from '../src/model/area/area';
 import {House} from '../src/model/player/house';
 import {UnitType} from '../src/model/units/unitType';
 import {OrderToken} from '../src/model/orderToken/orderToken';
-import Unit from '../src/model/units/units';
+import {Unit} from '../src/model/units/units';
 import {AreaKey} from '../src/model/area/areaKey';
 import {OrderTokenType} from '../src/model/orderToken/orderTokenType';
 
-export default class AreaBuilder {
+class AreaBuilder {
 
     private _key: AreaKey;
     private _units: Array<UnitType> = [];
@@ -43,3 +43,4 @@ export default class AreaBuilder {
 
     }
 }
+export {AreaBuilder}

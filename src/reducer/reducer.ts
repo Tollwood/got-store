@@ -1,14 +1,15 @@
-import {ActionTypes, TypeKeys} from '../actions/actions';
-import VictoryRules from '../logic/victoryRules';
-import GamePhaseService from '../logic/gamePhaseService';
-import RecruitingStateModificationService from '../logic/gameState/recruitingStateModificationService';
-import AreaModificationService from '../logic/gameState/areaStateModificationService';
-import PlayerStateModificationService from '../logic/gameState/playerStateModificationService';
-import GameStateModificationService from '../logic/gameState/gameStateModificationService';
-import {GameStoreState} from '../state';
-import CombatCalculator from '../logic/combatCalculator';
+import {TypeKeys} from '../actions/actions';
+import {ActionTypes} from '../actions/actionTypes';
+import {VictoryRules} from '../logic/victoryRules';
+import { GamePhaseService} from '../logic/gamePhaseService';
+import {RecruitingStateModificationService} from '../logic/gameState/recruitingStateModificationService';
+import {AreaStateModificationService} from '../logic/gameState/areaStateModificationService';
+import {PlayerStateModificationService} from '../logic/gameState/playerStateModificationService';
+import {GameStateModificationService } from '../logic/gameState/gameStateModificationService';
+import {State} from '../state';
+import {CombatCalculator} from '../logic/combatCalculator';
 
-const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): GameStoreState => {
+const gameStateReducer = (state: State = {}, action: ActionTypes): State => {
     let newState;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
@@ -26,14 +27,14 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
                 state.areasAllowedToRecruit, action.areaKey);
             newState = {
                 ...state,
-                areas: AreaModificationService.recruitUnits(Array.from(state.areas.values()), action.areaKey, action.units),
+                areas: AreaStateModificationService.recruitUnits(Array.from(state.areas.values()), action.areaKey, action.units),
                 areasAllowedToRecruit,
                 ...GamePhaseService.updateGamePhaseAfterRecruiting(state, action.areaKey)
             };
             break;
 
         case TypeKeys.PLACE_ORDER:
-            const areasAfterPlacingOrder = AreaModificationService.addOrderToken(Array.from(state.areas.values()),
+            const areasAfterPlacingOrder = AreaStateModificationService.addOrderToken(Array.from(state.areas.values()),
                 action.orderToken,
                 action.areaKey);
             let nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterPlacingOrder.values()));
@@ -46,7 +47,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
 
         case TypeKeys.SKIP_ORDER:
-            const areasAfterSkippingOrder = AreaModificationService.removeOrderToken(Array.from(state.areas.values()),
+            const areasAfterSkippingOrder = AreaStateModificationService.removeOrderToken(Array.from(state.areas.values()),
                 action.areaKey);
             nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterSkippingOrder.values()));
             newState = {
@@ -57,7 +58,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
-            const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(Array.from(state.areas.values()),
+            const areasAfterExecutingRaidOrder = AreaStateModificationService.removeOrderTokens(Array.from(state.areas.values()),
                 [action.sourceAreaKey,
                     action.targetAreaKey]);
             const playersAfterRaidOrder = PlayerStateModificationService.raidPowerToken(state,
@@ -75,7 +76,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
         case TypeKeys.MOVE_UNITS:
             const winningHouse = VictoryRules.verifyWinningHouseAfterMove(state,
                 state.areas.get(action.source).controllingHouse, action.target);
-            const areasAfterMove = AreaModificationService.moveUnits(Array.from(state.areas.values()),
+            const areasAfterMove = AreaStateModificationService.moveUnits(Array.from(state.areas.values()),
                 action.source, action.target, action.units, action.completeOrder, action.establishControl);
             const playersAfterMove = PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse);
             nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterMove.values()));
@@ -92,7 +93,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             const combatResult = CombatCalculator.calculateCombat(state.areas.get(action.sourceAreaKey), state.areas.get(action.targetAreaKey));
             const loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
             const winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
-            const areasAfterFight = AreaModificationService.updateAfterFight(state, Array.from(state.areas.values()), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units)
+            const areasAfterFight = AreaStateModificationService.updateAfterFight(state, Array.from(state.areas.values()), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units)
             nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterFight.values()));
             newState = {
                 ...state,
@@ -111,6 +112,5 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
     }
     return nextState;
 };
-
 
 export {gameStateReducer};

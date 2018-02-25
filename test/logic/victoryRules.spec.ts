@@ -1,11 +1,11 @@
-import VictoryRules from '../../src/logic/victoryRules';
+import {VictoryRules} from '../../src/logic/victoryRules';
 import {House} from '../../src/model/player/house';
-import Player from '../../src/model/player/player';
-import AreaBuilder from '../areaBuilder';
+import {Player} from '../../src/model/player/player';
+import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
-import Area from '../../src/model/area/area';
+import {Area} from '../../src/model/area/area';
 
-import {GameStoreState} from '../../src/state';
+import {State} from '../../src/state';
 
 describe('VictoryRules', () => {
 
@@ -27,7 +27,7 @@ describe('VictoryRules', () => {
 
     describe('getWinningHouse', () => {
         it('should return null if no one has 7 strongholds/ castle and gameRound is smaller or equal 10', () => {
-            const state: GameStoreState = {gameRound: 0, players: []};
+            const state: State = {gameRound: 0, players: []};
             const actual = VictoryRules.getWinningHouse(state);
             expect(actual).toBeNull();
         });
@@ -44,7 +44,7 @@ describe('VictoryRules', () => {
             areas.set(area1.key, area1);
             areas.set(area2.key, area2);
             areas.set(area3.key, area3);
-            const state: GameStoreState = {
+            const state: State = {
                 gameRound: 11,
                 players: [player1, player2],
                 areas: areas

@@ -1,8 +1,8 @@
 import {House} from './player/house';
-import Unit from './units/units';
-import Area from './area/area';
+import {Unit} from './units/units';
+import {Area} from './area/area';
 
-export default class CombatResult {
+class CombatResult {
 
   private _attackingArea: Area;
   private _attackerStrength: number;
@@ -56,3 +56,5 @@ export default class CombatResult {
   }
 
 }
+
+export {CombatResult}

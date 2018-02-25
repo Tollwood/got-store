@@ -1,4 +1,4 @@
-export default class WildlingStateModificationService {
+class WildlingStateModificationService {
 
     static updateWildlingCount(currentCount: number, increment: number): number {
         if (currentCount + increment >= 12) {
@@ -8,3 +8,5 @@ export default class WildlingStateModificationService {
         }
     }
 }
+
+export {WildlingStateModificationService}

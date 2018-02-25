@@ -1,6 +1,6 @@
 import {House} from '../player/house';
 import {UnitType} from './unitType';
-export default class Unit {
+class Unit {
     private type: UnitType;
     private house: House;
 
@@ -22,3 +22,4 @@ export default class Unit {
     }
 }
 
+export {Unit}

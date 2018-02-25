@@ -1,17 +1,18 @@
-import AreaBuilder from '../areaBuilder';
+import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';import Area from '../../src/model/area/area';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
+import {Area} from '../../src/model/area/area';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {House} from '../../src/model/player/house';
-import AreaModificationService from '../../src/logic/gameState/areaStateModificationService';
-import Player from '../../src/model/player/player';
+import {AreaStateModificationService} from '../../src/logic/gameState/areaStateModificationService';
+import {Player} from '../../src/model/player/player';
 
 
 describe('skipOrder', () => {
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create([]);
+        store = GameFactory.create([]);
     });
     it('should remove orderToken and switch to Next Player', () => {
 
@@ -23,13 +24,13 @@ describe('skipOrder', () => {
             ironThroneSuccession: [House.stark],
             players: [new Player(House.stark, 5)]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
-        spyOn(AreaModificationService, 'removeOrderToken').and.returnValue(areas);
-        store.dispatch(ActionFactory.skipOrder(AreaKey.Winterfell));
+        store.execute(ActionFactory.loadGame(gameStoreState));
+        spyOn(AreaStateModificationService, 'removeOrderToken').and.returnValue(areas);
+        store.execute(ActionFactory.skipOrder(AreaKey.Winterfell));
 
         const newAreas = store.getState().areas;
         expect(newAreas).toEqual(areas);
-        expect(AreaModificationService.removeOrderToken).toHaveBeenCalled();
+        expect(AreaStateModificationService.removeOrderToken).toHaveBeenCalled();
     });
 });
 

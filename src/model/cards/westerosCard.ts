@@ -1,7 +1,7 @@
 import {GamePhase} from '../gamePhase';
-import CardFunction from './cardFunction';
+import {CardFunction} from './cardFunction';
 
-export default class WesterosCard {
+class WesterosCard {
 
     private _id: number;
     private _title: string;
@@ -61,3 +61,4 @@ export default class WesterosCard {
     }
 }
 
+export {WesterosCard}

@@ -1,9 +1,9 @@
-import Unit from '../units/units';
+import { Unit} from '../units/units';
 import {OrderToken} from '../orderToken/orderToken';
 import {House} from '../player/house';
 import {AreaKey} from './areaKey';
 
-export default class Area {
+class Area {
 
     private _key: AreaKey;
     private _controllingHouse: House;
@@ -50,3 +50,5 @@ export default class Area {
         return new Area(this.key, this.controllingHouse, this.units, this.orderToken);
     }
 }
+
+export {Area}

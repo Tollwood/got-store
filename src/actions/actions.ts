@@ -1,10 +1,10 @@
-import PlayerSetup from '../model/player/playerSetup';
+import {PlayerSetup} from '../model/player/playerSetup';
 import {UnitType} from '../model/units/unitType';
-import Unit from '../model/units/units';
+import {Unit} from '../model/units/units';
 import {AreaKey} from '../model/area/areaKey';
 import {OrderToken} from '../model/orderToken/orderToken';
-import WesterosCard from '../model/cards/westerosCard';
-import {GameStoreState} from '../state';
+import { WesterosCard} from '../model/cards/westerosCard';
+import {State} from '../state';
 
 export enum TypeKeys {
     LOAD_GAME = 'LOAD_GAME',
@@ -78,22 +78,9 @@ export interface NewGameAction {
 
 export interface LoadGameAction {
     type: TypeKeys.LOAD_GAME;
-    state: GameStoreState;
+    state: State;
 }
 
 export interface OtherAction {
     type: TypeKeys.OTHER_ACTION;
 }
-
-export type ActionTypes =
-    | NewGameAction
-    | LoadGameAction
-    | RecruitUnitsAction
-    | MoveUnitsAction
-    | ResolveFightAction
-    | PlaceOrderAction
-    | SkipOrderAction
-    | ExecuteRaidOrderAction
-    | ExecuteWesterosCardAction
-    | PlayWesterosCardAction
-    | OtherAction;

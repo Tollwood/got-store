@@ -1,7 +1,7 @@
 import {OrderTokenType} from '../model/orderToken/orderTokenType';
 import {AreaKey} from '../model/area/areaKey';
 
-export default class PossibleMove {
+class PossibleMove {
     private _orderTokenType: OrderTokenType;
     private _sourceAreaKey: AreaKey;
     private _targetAreaKey: AreaKey;
@@ -30,3 +30,5 @@ export default class PossibleMove {
         return this._value;
     }
 }
+
+export {PossibleMove}

@@ -1,13 +1,13 @@
-import Area from '../../model/area/area';
+import { Area } from '../../model/area/area';
 import * as areaConfigData from './areaConfig.json';
 import * as unitsConfigData from './unitsConfig.json';
 import {House} from '../../model/player/house';
-import Unit from '../../model/units/units';
+import { Unit } from '../../model/units/units';
 import {UnitType} from '../../model/units/unitType';
 import {AreaKey} from '../../model/area/areaKey';
-import AreaStats from '../../model/area/areaStats';
+import { AreaStats } from '../../model/area/areaStats';
 
-export class AreaInitiator {
+class AreaInitiator {
 
     public static getInitalState(playingHouses: Array<House>): Map<AreaKey, Area> {
         let areas: Map<AreaKey, Area> = new Map();
@@ -63,3 +63,5 @@ export class AreaInitiator {
 
     }
 }
+
+export {AreaInitiator}

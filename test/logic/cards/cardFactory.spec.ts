@@ -1,4 +1,4 @@
-import CardFactory from '../../../src/logic/cards/cardFactory';
+import {CardFactory} from '../../../src/logic/cards/cardFactory';
 import {GamePhase} from '../../../src/model/gamePhase';
 
 xdescribe('CardFactory', () => {

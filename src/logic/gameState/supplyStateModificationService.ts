@@ -1,11 +1,11 @@
 import {House} from '../../model/player/house';
-import Area from '../../model/area/area';
-import {GameStoreState} from '../../state';
+import {Area } from '../../model/area/area';
+import {State} from '../../state';
 import {AreaStatsService} from '../area/areaStatsService';
 
-export default class SupplyStateModificationService {
+class SupplyStateModificationService {
 
-    public static updateSupply(state: GameStoreState): Map<House, number> {
+    public static updateSupply(state: State): Map<House, number> {
         let updatedSupply = new Map<House, number>();
         state.players.forEach((player) => {
             updatedSupply.set(player.house, this.calculateNumberOfSupply(Array.from(state.areas.values()), player.house));
@@ -29,3 +29,5 @@ export default class SupplyStateModificationService {
     }
 
 }
+
+export {SupplyStateModificationService}

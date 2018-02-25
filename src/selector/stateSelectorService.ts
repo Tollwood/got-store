@@ -1,12 +1,12 @@
-import Area from '../model/area/area';
+import { Area}  from '../model/area/area';
 import {AreaKey} from '../model/area/areaKey';
-import Player from '../model/player/player';
+import { Player } from '../model/player/player';
 import {House} from '../model/player/house';
-import {GameStoreState} from '../state';
+import {State} from '../state';
 import {AreaStatsService} from '../logic/area/areaStatsService';
 import {OrderTokenType} from '../model/orderToken/orderTokenType';
 
-export default class StateSelectorService {
+class StateSelectorService {
 
   private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
   public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -17,22 +17,22 @@ export default class StateSelectorService {
 
 
 
-  public static getFirstFromIronThroneSuccession(state: GameStoreState): House {
+  public static getFirstFromIronThroneSuccession(state: State): House {
     return state.ironThroneSuccession[0];
   }
 
-  public static getAreaByKey(state: GameStoreState, areaKey: AreaKey): Area {
+  public static getAreaByKey(state: State, areaKey: AreaKey): Area {
     const area = state.areas.get(areaKey);
     return area ? area : null;
   }
 
-  public static getPlayerByHouse(state: GameStoreState,house: House): Player {
+  public static getPlayerByHouse(state: State, house: House): Player {
     return state.players.find(player => player.house === house);
   }
 
   // move related
 
-  public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): AreaKey[] {
+  public static getAllAreasAllowedToMarchTo(state: State, sourceArea: Area): AreaKey[] {
     if (sourceArea.units.length === 0) {
       return [];
     }
@@ -40,7 +40,7 @@ export default class StateSelectorService {
     return this.getValidAreas(state, sourceArea, sourceAreaStats.borders);
   }
 
-  public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
+  public static calculateAllowedMaxSizeBasedOnSupply(state: State, house: House): number {
     const areas: Area[] = Array.from(state.areas.values());
     const supplyScore = state.currentlyAllowedSupply.get(house);
     const armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, house);
@@ -58,7 +58,7 @@ export default class StateSelectorService {
     return maxSize;
   }
 
-  public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
+  public static enoughSupplyForArmySize(state: State, source: Area, target: Area): boolean {
     const targetArmySize = target === undefined ? 0 : target.units.length;
     const oneUnitCanMove = targetArmySize + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
     return target === undefined
@@ -69,7 +69,7 @@ export default class StateSelectorService {
 
   // recruiting related
 
-  public static getAreasAllowedToRecruit(state: GameStoreState, house: House): Array<Area> {
+  public static getAreasAllowedToRecruit(state: State, house: House): Array<Area> {
     return state.areasAllowedToRecruit.filter((areaKey: AreaKey) => {
       const area = state.areas.get(areaKey);
       if (area.controllingHouse !== house) {
@@ -83,7 +83,7 @@ export default class StateSelectorService {
 
   // Supply related
 
-  private static getValidAreas(state: GameStoreState, sourceArea: Area, areasToCheck: AreaKey[]) {
+  private static getValidAreas(state: State, sourceArea: Area, areasToCheck: AreaKey[]) {
     let validAreas: AreaKey[] = [];
     areasToCheck
       .forEach((areaKey) => {
@@ -114,7 +114,7 @@ export default class StateSelectorService {
     });
   }
 
-  private static isAllowedToMove(state: GameStoreState, source: Area, targetKey: AreaKey): boolean {
+  private static isAllowedToMove(state: State, source: Area, targetKey: AreaKey): boolean {
     const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(source.key);
     const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetKey);
     const landToLandMove = sourceAreaStats.isLandArea && targetAreaStats.isLandArea;
@@ -126,14 +126,14 @@ export default class StateSelectorService {
 
   // token placement related
 
-  public static isAllowedToPlaceOrderToken(state: GameStoreState, house: House, areaKey: AreaKey): boolean {
+  public static isAllowedToPlaceOrderToken(state: State, house: House, areaKey: AreaKey): boolean {
     const area: Area = StateSelectorService.getAreaByKey(state, areaKey);
     return area !== null && area.units.length > 0
       && area.controllingHouse === house
       && area.orderToken === null;
   }
 
-  public static getPlacableOrderTokenTypes(state: GameStoreState, house: House): Array<OrderTokenType> {
+  public static getPlacableOrderTokenTypes(state: State, house: House): Array<OrderTokenType> {
     let alreadyPlacedOrderTokens: Array<OrderTokenType> = Array.from(state.areas.values()).filter((area) => {
       return area.orderToken && area.controllingHouse === house;
     }).map((area) => {
@@ -159,3 +159,5 @@ export default class StateSelectorService {
     }).length === 1;
   }
 }
+
+export {StateSelectorService}

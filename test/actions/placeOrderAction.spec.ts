@@ -1,22 +1,22 @@
-import AreaBuilder from '../areaBuilder';
+import {AreaBuilder} from '../areaBuilder';
 import {UnitType} from '../../src/model/units/unitType';
 import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
-import Area from '../../src/model/area/area';
-import GameStoreFactory from '../../src/gameStoreFactory';
-import {ActionFactory} from '../../src/ActionFactory';
+import {Area} from '../../src/model/area/area';
+import {GameFactory} from '../../src/gameFactory';
+import {ActionFactory} from '../../src/actionFactory';
 import {OrderToken} from '../../src/model/orderToken/orderToken';
 import {GamePhase} from '../../src/model/gamePhase';
 
 describe('placeOrderAction', () => {
 
     let store;
-    beforeEach(()=>{
-        store = GameStoreFactory.create([]);
+    beforeEach(() => {
+        store = GameFactory.create([]);
     });
-    
+
     it('should place an orderToken', () => {
         // given
         const areas = new Map<AreaKey, Area>();
@@ -28,10 +28,10 @@ describe('placeOrderAction', () => {
             areas: areas,
             ironThroneSuccession: [House.stark]
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.defend_0)));
+        store.execute(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.defend_0)));
         const newState = store.getState();
 
         // then
@@ -56,10 +56,10 @@ describe('placeOrderAction', () => {
             gamePhase: GamePhase.PLANNING,
             areas: areas
         };
-        store.dispatch(ActionFactory.loadGame(gameStoreState));
+        store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.dispatch(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.raid_0)));
+        store.execute(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.raid_0)));
         const newState = store.getState();
         // then
         expect(newState).not.toBe(gameStoreState);

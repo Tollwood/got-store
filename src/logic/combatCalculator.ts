@@ -1,11 +1,11 @@
-import Area from '../model/area/area';
-import CombatResult from '../model/combatResult';
+import {Area} from '../model/area/area';
+import {CombatResult} from '../model/combatResult';
 import {OrderToken} from '../model/orderToken/orderToken';
-import Unit from '../model/units/units';
+import {Unit} from '../model/units/units';
 import {UnitType} from '../model/units/unitType';
 import {OrderTokenType} from '../model/orderToken/orderTokenType';
 
-export default class CombatCalculator {
+class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
         let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);
@@ -70,3 +70,5 @@ export default class CombatCalculator {
         return strength;
     }
 }
+
+export {CombatCalculator}

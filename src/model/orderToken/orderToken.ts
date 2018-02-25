@@ -1,7 +1,7 @@
 import {House} from '../player/house';
 import {OrderTokenType} from './orderTokenType';
 
-export class OrderToken {
+class OrderToken {
 
     private house: House;
     private type: OrderTokenType;
@@ -72,3 +72,4 @@ export class OrderToken {
         }
     }
 }
+export {OrderToken}

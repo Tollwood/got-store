@@ -1,13 +1,13 @@
-import Area from '../../model/area/area';
+import { Area } from '../../model/area/area';
 import {AreaKey} from '../../model/area/areaKey';
-import Player from '../../model/player/player';
+import {Player } from '../../model/player/player';
 import {House} from '../../model/player/house';
-import {GameStoreState} from '../../state';
+import {State} from '../../state';
 import {AreaStatsService} from '../area/areaStatsService';
-import PlayerSetup from '../../model/player/playerSetup';
+import {PlayerSetup} from '../../model/player/playerSetup';
 
-export default class PlayerStateModificationService {
-  public static raidPowerToken(state: GameStoreState, source: AreaKey, target: AreaKey): Player[] {
+class PlayerStateModificationService {
+  public static raidPowerToken(state: State, source: AreaKey, target: AreaKey): Player[] {
 
     const targetArea = state.areas.get(target);
     const sourceArea = state.areas.get(source);
@@ -40,7 +40,7 @@ export default class PlayerStateModificationService {
     return players;
   }
 
-  public static consolidateAllPower(state: GameStoreState): Player[] {
+  public static consolidateAllPower(state: State): Player[] {
     const newPlayers = [];
     state.players.forEach((player) => {
       let additionalPower = 0;
@@ -85,3 +85,5 @@ export default class PlayerStateModificationService {
     return players;
   }
 }
+
+export {PlayerStateModificationService}

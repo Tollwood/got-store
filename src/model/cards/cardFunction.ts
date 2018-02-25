@@ -1,4 +1,4 @@
-export default class CardFunction {
+class CardFunction {
 
     private _functionName: string;
     private _description: string;
@@ -17,3 +17,5 @@ export default class CardFunction {
         return this._functionName;
     }
 }
+
+export {CardFunction}

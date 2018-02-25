@@ -1,18 +1,18 @@
 import {House} from '../model/player/house';
-import Area from '../model/area/area';
+import {Area} from '../model/area/area';
 import {AreaKey} from '../model/area/areaKey';
-import {GameStoreState} from '../state';
+import {State} from '../state';
 import {AreaStatsService} from './area/areaStatsService';
 
-export default class VictoryRules {
+class VictoryRules {
 
-    public static getVictoryPositionFor(state: GameStoreState, house: House) {
+    public static getVictoryPositionFor(state: State, house: House) {
         return Array.from(state.areas.values()).filter((area: Area) => {
             return area.controllingHouse === house && AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold();
         }).length;
     }
 
-    public static getWinningHouse(state: GameStoreState): House {
+    public static getWinningHouse(state: State): House {
         let winningHouse: House = null;
         const nextGameRound = state.gameRound + 1;
         if (nextGameRound > 10) {
@@ -24,7 +24,7 @@ export default class VictoryRules {
         return winningHouse;
     }
 
-    public static verifyWinningHouseAfterMove(state: GameStoreState, house: House, targetAreaKey?: AreaKey): House {
+    public static verifyWinningHouseAfterMove(state: State, house: House, targetAreaKey?: AreaKey): House {
         let winningHouse: House = null;
         const victoryPosition = this.getVictoryPositionFor(state, house);
         const targetAreaHasStronghold = AreaStatsService.getInstance().areaStats.get(targetAreaKey).hasCastleOrStronghold();
@@ -34,3 +34,5 @@ export default class VictoryRules {
         return winningHouse;
     }
 }
+
+export {VictoryRules}
