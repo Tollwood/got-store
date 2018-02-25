@@ -2,20 +2,21 @@ import {AreaBuilder} from '../areaBuilder';
 import {Unit} from '../../src/model/units/units';
 import {UnitType} from '../../src/model/units/unitType';
 import {House} from '../../src/model/player/house';
-import {AreaKey} from '../..//src/model/area/areaKey';
+import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {Area} from '../../src/model/area/area';
 import {Player} from '../../src/model/player/player';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
+import {GamePhase} from '../../src/model/gamePhase';
 
 
 describe('moveUnitsAction', () => {
     const playerLannister = new Player(House.lannister, 0);
     const playerStark = new Player(House.stark, 1);
-    let store;
+    let gameLogic;
     beforeEach(()=>{
-         store = GameFactory.create([]);
+         gameLogic = GameLogicFactory.create([]);
     });
     it('should move the units and establish control in targetArea, aswell as moving on to the next player', () => {
         // given
@@ -25,9 +26,14 @@ describe('moveUnitsAction', () => {
         const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
         sourceArea.units = [horseUnit, footmanUnit1, footmanUnit2];
         const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
+        const karlhold = new AreaBuilder(AreaKey.Karhold)
+            .withOrderToken(OrderTokenType.march_special)
+            .withHouse(House.lannister)
+            .withUnits([UnitType.Horse]).build();
         const areas = new Map<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);
         areas.set(AreaKey.WhiteHarbor, targetArea);
+        areas.set(AreaKey.Karhold, karlhold);
         const unitsToMove = [footmanUnit1, horseUnit];
         const completeOrder = false;
         const establishControl = false;
@@ -35,13 +41,14 @@ describe('moveUnitsAction', () => {
             ironThroneSuccession: [playerLannister.house, playerStark.house],
             players: [playerStark, playerLannister],
             currentHouse: House.stark,
-            areas: areas
+            areas: areas,
+            gamePhase: GamePhase.ACTION_MARCH
         };
-        store.execute(ActionFactory.loadGame(gameStoreState));
+        gameLogic.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = store.getState().areas;
+        gameLogic.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = gameLogic.getState().areas;
 
         // then
         expect(actual).not.toBe(areas);
@@ -52,7 +59,8 @@ describe('moveUnitsAction', () => {
         expect(actual.get(sourceArea.key).controllingHouse).toBe(House.stark);
         expect(actual.get(sourceArea.key).orderToken).toBeDefined();
         expect(actual.get(sourceArea.key).orderToken.getType()).toBeDefined(OrderTokenType.march_special);
-        expect(store.getState().currentHouse).toBe(House.lannister);
+        expect(gameLogic.getState().gamePhase).toBe(GamePhase.ACTION_MARCH);
+        expect(gameLogic.getState().currentHouse).toBe(House.lannister);
     });
     it('should set controllingHouse to null if all units leave source area', () => {
         // given
@@ -73,11 +81,11 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.execute(ActionFactory.loadGame(gameStoreState));
+        gameLogic.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = store.getState().areas;
+        gameLogic.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = gameLogic.getState().areas;
         // then
         const actualSource = actual.get(sourceArea.key);
         expect(actualSource).toBe(undefined);
@@ -99,11 +107,11 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.execute(ActionFactory.loadGame(gameStoreState));
+        gameLogic.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove));
-        const actual = store.getState().areas;
+        gameLogic.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove));
+        const actual = gameLogic.getState().areas;
         // then
         expect(actual.get(sourceArea.key).orderToken).toBeNull();
     });
@@ -125,17 +133,16 @@ describe('moveUnitsAction', () => {
             currentHouse: House.stark,
             areas: areas
         };
-        store.execute(ActionFactory.loadGame(gameStoreState));
+        gameLogic.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
-        const actual = store.getState();
+        gameLogic.execute(ActionFactory.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
+        const actual = gameLogic.getState();
 
         // then
         expect(actual.areas.get(sourceArea.key).controllingHouse).toBe(House.stark);
-        expect(store.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
+        expect(gameLogic.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
     });
-
     it('should return the house that has exactly 7 strongholds/ castle', () => {
         let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
         let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
@@ -162,11 +169,12 @@ describe('moveUnitsAction', () => {
             winningHouse: null,
             ironThroneSuccession: [House.stark, House.lannister],
             areas: areas,
-            players: [new Player(House.lannister, 0), new Player(House.stark, 0)]
+            players: [new Player(House.lannister, 0), new Player(House.stark, 0)],
+            currentHouse: House.stark
         };
-        store.execute(ActionFactory.loadGame(gameStoreState));
-        store.execute(ActionFactory.moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
-        const newState = store.getState();
+        gameLogic.execute(ActionFactory.loadGame(gameStoreState));
+        gameLogic.execute(ActionFactory.moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
+        const newState = gameLogic.getState();
         expect(newState.winningHouse).toBe(House.stark);
     });
 

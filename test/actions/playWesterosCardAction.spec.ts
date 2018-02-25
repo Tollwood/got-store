@@ -3,7 +3,7 @@ xdescribe('PlayWesterosCardAction', () => {
 
   //  let store;
     beforeEach(()=>{
-//        store = GameFactory.create([]);
+//        store = GameLogicFactory.create([]);
     });
    /* describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {

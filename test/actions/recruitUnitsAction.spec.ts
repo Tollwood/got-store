@@ -4,7 +4,7 @@ import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import {Area} from '../../src/model/area/area';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {State} from '../../src/state';
 
@@ -13,7 +13,7 @@ describe('recruitUnitsAction', () => {
 
     let store;
     beforeEach(()=>{
-        store = GameFactory.create([]);
+        store = GameLogicFactory.create([]);
     });
     it('should skip recruiting if no units are provided', () => {
         // given

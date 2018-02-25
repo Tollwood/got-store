@@ -1,6 +1,6 @@
 import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {Area} from '../../src/model/area/area';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
@@ -12,7 +12,7 @@ import {Player} from '../../src/model/player/player';
 describe('skipOrder', () => {
     let store;
     beforeEach(()=>{
-        store = GameFactory.create([]);
+        store = GameLogicFactory.create([]);
     });
     it('should remove orderToken and switch to Next Player', () => {
 

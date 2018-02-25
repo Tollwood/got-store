@@ -2,7 +2,7 @@ import {WesterosCard} from '../../src/model/cards/westerosCard';
 import {WesterosCardBuilder} from '../westerosCardBuilder';
 import {CardFunction} from '../../src/model/cards/cardFunction';
 import {State} from '../../src/state';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {CardAbilities} from '../../src/logic/cards/cardAbilities';
 
@@ -20,7 +20,7 @@ xdescribe('executeWesterosCardAction', () => {
             .build();
 
         const state: State = {wildlingsCount: currentWildingCount};
-        const game = GameFactory.create([]);
+        const game = GameLogicFactory.create([]);
         game.execute(ActionFactory.loadGame(state));
 
         spyOn(CardAbilities, 'shuffleCards').and.returnValue(state);

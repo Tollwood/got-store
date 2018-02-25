@@ -2,7 +2,7 @@ import {AreaBuilder} from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {Player} from '../../src/model/player/player';
 import {House} from '../../src/model/player/house';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {Area} from '../../src/model/area/area';
 
@@ -15,8 +15,8 @@ describe('executeRaidOrder', () => {
     let playerStark: Player;
     let playerLannister: Player;
     let store;
-    beforeEach(()=>{
-        store = GameFactory.create([]);
+    beforeEach(() => {
+        store = GameLogicFactory.create([]);
         playerStark = new Player(House.stark, 0);
         playerLannister = new Player(House.lannister, 0);
     });
@@ -42,7 +42,6 @@ describe('executeRaidOrder', () => {
         const areas = new Map<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);
         areas.set(AreaKey.WhiteHarbor, targetArea);
-        areas.set(areaWithMarchToken.key, areaWithMarchToken);
         let gameStoreState = {
             players: [playerStark, playerLannister],
             areas: areas,
@@ -69,7 +68,6 @@ describe('executeRaidOrder', () => {
         const areas = new Map<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);
         areas.set(AreaKey.WhiteHarbor, targetArea);
-        areas.set(areaWithMarchToken.key, areaWithMarchToken);
         let gameStoreState = {
             players: [playerStark, playerLannister],
             areas: areas,
@@ -95,18 +93,20 @@ describe('executeRaidOrder', () => {
         const areas = new Map<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);
         areas.set(AreaKey.WhiteHarbor, targetArea);
-        areas.set(areaWithMarchToken.key, areaWithMarchToken);
         let gameStoreState = {
             players: [playerStark, playerLannister],
             areas: areas,
             gamePhase: GamePhase.ACTION_RAID,
-            ironThroneSuccession: [House.stark]
+            ironThroneSuccession: [House.lannister, House.baratheon],
+            currentHouse: House.lannister
         };
         store.execute(ActionFactory.loadGame(gameStoreState));
 
         store.execute(ActionFactory.executeRaidOrder(sourceArea.key, targetArea.key));
         expect(playerLannister.powerToken).toEqual(1);
         expect(playerStark.powerToken).toEqual(4);
+        expect(store.getState().gamePhase).toBe(GamePhase.PLANNING);
+        expect(store.getState().currentHouse).toBeNull();
     });
 
 });

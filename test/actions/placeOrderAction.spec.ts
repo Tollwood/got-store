@@ -5,7 +5,7 @@ import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
 import {Area} from '../../src/model/area/area';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {OrderToken} from '../../src/model/orderToken/orderToken';
 import {GamePhase} from '../../src/model/gamePhase';
@@ -14,7 +14,7 @@ describe('placeOrderAction', () => {
 
     let store;
     beforeEach(() => {
-        store = GameFactory.create([]);
+        store = GameLogicFactory.create([]);
     });
 
     it('should place an orderToken', () => {
@@ -44,7 +44,7 @@ describe('placeOrderAction', () => {
 
     });
 
-    fit('should place an orderToken and switch to next phase if all tokens are placed', () => {
+    it('should place an orderToken and switch to next phase if all tokens are placed', () => {
         // given
         const areas = new Map<AreaKey, Area>();
         const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();

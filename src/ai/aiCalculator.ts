@@ -9,11 +9,11 @@ import {OrderTokenType} from '../model/orderToken/orderTokenType';
 import {AreaKey} from '../model/area/areaKey';
 import {OrderToken} from '../model/orderToken/orderToken';
 import { StateSelectorService } from '../selector/stateSelectorService';
-import { Game } from '../game';
+import { GameLogic } from '../gameLogic';
 
 class AiCalculator {
 
-    public static executeOrder(game: Game, house: House) {
+    public static executeOrder(game: GameLogic, house: House) {
         const state = game.getState();
         const shouldDoSomething = state.currentHouse === house && (state.gamePhase === GamePhase.ACTION_RAID || state.gamePhase === GamePhase.ACTION_MARCH);
         if (!shouldDoSomething) {
@@ -47,7 +47,7 @@ class AiCalculator {
 
     }
 
-    public static recruit(game: Game, house: House): Area {
+    public static recruit(game: GameLogic, house: House): Area {
 
         const state = game.getState();
         const shouldDoSomething = state.areasAllowedToRecruit.length > 0
@@ -66,7 +66,7 @@ class AiCalculator {
         return null;
     }
 
-    public static placeAllOrderTokens(game: Game, house: House) {
+    public static placeAllOrderTokens(game: GameLogic, house: House) {
         const shouldDoSomething = game.getState().gamePhase === GamePhase.PLANNING;
         if (!shouldDoSomething) {
             return;

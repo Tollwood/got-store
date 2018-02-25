@@ -21,13 +21,19 @@ import {GamePhase} from './src/model/gamePhase';
 
 import {ActionFactory} from './src/actionFactory';
 import {State} from './src/state';
-import {GameFactory} from './src/gameFactory';
+import {GameLogicFactory} from './src/gameLogicFactory';
 import {StateSelectorService} from './src/selector/stateSelectorService';
 import {AreaStatsService} from './src/logic/area/areaStatsService';
+import {GameLogic} from './src/gameLogic';
+
 export {
-    House,
-    Player,
+    ActionFactory,
+    State,
+    GameLogicFactory,
+    GameLogic,
     PlayerSetup,
+    Player,
+    House,
     Area,
     AreaKey,
     AreaStats,
@@ -39,9 +45,6 @@ export {
     Unit,
     CombatResult,
     GamePhase,
-    ActionFactory,
-    State,
-    GameFactory,
     StateSelectorService,
     AreaStatsService
 }

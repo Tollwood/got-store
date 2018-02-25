@@ -1,5 +1,5 @@
 import {ActionFactory} from '../../src/actionFactory';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {GamePhase} from '../../src/model/gamePhase';
 
 
@@ -8,7 +8,7 @@ describe('loadGameAction', () => {
     it('should preserve isDegugEnabeled value', () => {
 
         const isDegugEnabeled: boolean = true;
-        const game = GameFactory.create([],isDegugEnabeled);
+        const game = GameLogicFactory.create([],isDegugEnabeled);
 
         const loadState = {
             gamePhase: GamePhase.PLANNING,

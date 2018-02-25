@@ -4,17 +4,18 @@ import {CombatResult} from '../../src/model/combatResult';
 import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';
 import {Player} from '../../src/model/player/player';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {ActionFactory} from '../../src/actionFactory';
 import {Area} from '../../src/model/area/area';
 import {AreaBuilder} from '../areaBuilder';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
+import {GamePhase} from '../../src/model/gamePhase';
 
 describe('resolveFight', () => {
     const ironThroneSuccession = [House.lannister, House.stark];
     let store;
     beforeEach(() => {
-        store = GameFactory.create([]);
+        store = GameLogicFactory.create([]);
     });
     it('should eliminate defenders army and establish control over attacking area if attacker wins', () => {
         // given
@@ -38,7 +39,8 @@ describe('resolveFight', () => {
             areas: areas,
             players,
             ironThroneSuccession,
-            currentHouse: House.stark
+            currentHouse: House.stark,
+            gamePhase: GamePhase.ACTION_MARCH
         };
         store.execute(ActionFactory.loadGame(gameStoreState));
         // when
@@ -57,7 +59,9 @@ describe('resolveFight', () => {
         expect(newAttackingArea.orderToken).toBeNull();
         expect(newAttackingArea.units.length).toBe(0);
         expect(newAttackingArea.controllingHouse).toBe(House.stark);
-        expect(currenState.currentHouse).not.toBe(House.stark);
+        expect(currenState.currentHouse).toBeNull();
+        expect(currenState.gamePhase).toBe(GamePhase.PLANNING);
+
     });
 
     it('should let the defende win if opponents have the same strength', () => {

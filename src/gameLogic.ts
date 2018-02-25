@@ -2,7 +2,7 @@ import {Store} from 'redux';
 import {State} from './state';
 import {ActionTypes} from './actions/actionTypes';
 
-class Game {
+class GameLogic {
     private store: Store<State>;
 
     constructor(store: Store<State>) {
@@ -22,4 +22,4 @@ class Game {
     }
 }
 
-export {Game}
+export {GameLogic}

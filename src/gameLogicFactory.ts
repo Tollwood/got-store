@@ -3,11 +3,11 @@ import {AiCalculator} from './ai/aiCalculator';
 import {ActionFactory} from './actionFactory';
 import {createStore} from 'redux';
 import {gameStateReducer} from './reducer/reducer';
-import {Game} from './game';
+import {GameLogic} from './gameLogic';
 
-class GameFactory {
-    static create(playerSetup: PlayerSetup[], isDebugEnabled?: boolean): Game {
-        const game = new Game(createStore(gameStateReducer, {isDebugEnabled}));
+class GameLogicFactory {
+    static create(playerSetup: PlayerSetup[], isDebugEnabled?: boolean): GameLogic {
+        const game = new GameLogic(createStore(gameStateReducer, {isDebugEnabled}));
         playerSetup.forEach((playerSetup) => {
             if (playerSetup.ai) {
                 game.subscribe(() => {
@@ -22,4 +22,4 @@ class GameFactory {
     }
 }
 
-export {GameFactory}
+export {GameLogicFactory}

@@ -1,8 +1,8 @@
 import {PlayerSetup} from '../../src/model/player/playerSetup';
 import {House} from '../../src/model/player/house';
-import {GameFactory} from '../../src/gameFactory';
+import {GameLogicFactory} from '../../src/gameLogicFactory';
 import {GamePhase} from '../../src/model/gamePhase';
-import {Game} from '../../src/game';
+import {GameLogic} from '../../src/gameLogic';
 
 
 describe('newGameAction', () => {
@@ -11,7 +11,7 @@ describe('newGameAction', () => {
 
         const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
         const isDebugEnabled: boolean = false;
-        const game: Game = GameFactory.create(playerSetup,isDebugEnabled);
+        const game: GameLogic = GameLogicFactory.create(playerSetup,isDebugEnabled);
 
         const state = game.getState();
         expect(state.areas.size).toEqual(18);
@@ -26,7 +26,7 @@ describe('newGameAction', () => {
     it('should set isDegugEnabeled to true', () => {
 
         const isDebugEnabled: boolean = true;
-        const store = GameFactory.create([],isDebugEnabled);
+        const store = GameLogicFactory.create([],isDebugEnabled);
 
         const state = store.getState();
         expect(state.isDebugEnabled).toBe(true);

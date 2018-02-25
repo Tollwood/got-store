@@ -16,10 +16,11 @@ class GamePhaseService {
     }
 
     public static getNextHouse(state: State, nextGamePhase: GamePhase) {
+        const currentHouse = state.currentHouse;
         return this.getNextHouseWithPendingActions(state.ironThroneSuccession,
             Array.from(state.areas.values()),
             nextGamePhase,
-            this.nextHouse(state.ironThroneSuccession, state.currentHouse));
+            this.nextHouse(state.ironThroneSuccession, state.currentHouse), currentHouse);
     }
 
     public static cleanupBoard(state: State) {
@@ -32,7 +33,7 @@ class GamePhaseService {
                 gamePhase: GamePhase.PLANNING,
                 gameRound: state.gameRound + 1,
                 winningHouse: winningHouse,
-                currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
+                currentHouse: null,
                 currentlyAllowedTokenTypes: GameStateModificationService.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
             };
         }
@@ -62,16 +63,18 @@ class GamePhaseService {
             case GamePhase.ACTION_MARCH:
                 return !this.allMarchOrdersRevealed(areas, house);
             case GamePhase.ACTION_CLEANUP:
-                return areas.filter((area) => {
+                const areasWithToken = areas.filter((area) => {
                     return area.orderToken;
-                }).length > 0;
+                });
+                return areasWithToken.length > 0;
         }
     }
 
     private static allMarchOrdersRevealed(areas: Area[], house?: House): boolean {
-        return areas.filter((area) => {
+        const areasWithMarchToken = areas.filter((area) => {
             return area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
-        }).length === 0;
+        });
+        return areasWithMarchToken.length === 0;
     }
 
     private static nextHouse(ironThroneSuccession: House[], house: House): House {
@@ -132,19 +135,22 @@ class GamePhaseService {
 
     private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase): GamePhase {
         const isStillIn = this.isStillIn(areas, gamePhase);
-        if (isStillIn) {
+        if (isStillIn || gamePhase === GamePhase.ACTION_CLEANUP) {
             return gamePhase;
         }
         return this.getNextGamePhaseWithPendingActions(areas, this.getNextGamePhase(gamePhase));
     }
 
     private static getNextHouseWithPendingActions(ironThroneSuccession: House[], areas: Area[],
-                                                  gamePhase: GamePhase, house: House) {
+                                                  gamePhase: GamePhase, house: House, currentHouse: House) {
+        if (house === currentHouse) {
+            return null;
+        }
         if (this.isStillIn(areas, gamePhase, house)) {
             return house;
         }
         const nextHouse = this.nextHouse(ironThroneSuccession, house);
-        return this.getNextHouseWithPendingActions(ironThroneSuccession, areas, gamePhase, nextHouse);
+        return this.getNextHouseWithPendingActions(ironThroneSuccession, areas, gamePhase, nextHouse, currentHouse);
     }
 }
 
