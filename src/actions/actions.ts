@@ -84,3 +84,19 @@ export interface LoadGameAction {
 export interface OtherAction {
     type: TypeKeys.OTHER_ACTION;
 }
+
+type ActionTypes =
+    | NewGameAction
+    | LoadGameAction
+    | RecruitUnitsAction
+    | MoveUnitsAction
+    | ResolveFightAction
+    | PlaceOrderAction
+    | SkipOrderAction
+    | ExecuteRaidOrderAction
+    | ExecuteWesterosCardAction
+    | PlayWesterosCardAction
+    | OtherAction;
+
+
+export { ActionTypes}

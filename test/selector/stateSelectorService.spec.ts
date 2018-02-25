@@ -19,15 +19,15 @@ describe('StateSelectorService', () => {
 
         it('should return empty Array if no units are present in sourceArea', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).build();
-            const areas = new Map<AreaKey, Area>();
+            const areas = new  Map<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, sourceArea);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
-            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea);
+            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea,House.stark);
             expect(actual.length).toBe(0);
         });
 
@@ -39,11 +39,11 @@ describe('StateSelectorService', () => {
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, area);
+            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, area,House.stark);
             // then
             expect(actual.length).toBe(0);
         });
@@ -61,14 +61,14 @@ describe('StateSelectorService', () => {
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, winterfell);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, winterfell,House.stark);
 
             // then
-            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold, House.stark);
             expect(result.indexOf(karhold.key)).toBeGreaterThan(-1);
         });
 
@@ -89,14 +89,14 @@ describe('StateSelectorService', () => {
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
-            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack,House.stark);
             expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
         });
         it('should be allowed to move land units from WhiteHarbor via two sea areas using a friendly ship to castleBlack', () => {
@@ -122,14 +122,14 @@ describe('StateSelectorService', () => {
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
-            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack, House.stark);
             expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
 
         });
@@ -147,14 +147,14 @@ describe('StateSelectorService', () => {
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
-            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, winterfell);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, winterfell, House.stark);
             const landAreaBorders = AreaStatsService.getInstance()
                 .areaStats.get(whiteHarbor.key).borders
                 .filter(border => AreaStatsService.getInstance().areaStats.get(border).isLandArea).length;
@@ -175,11 +175,11 @@ describe('StateSelectorService', () => {
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
             expect(result.indexOf(winterfell.key)).toBeGreaterThan(-1);
@@ -198,11 +198,11 @@ describe('StateSelectorService', () => {
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
             expect(result.indexOf(castleBlack.key)).toBe(-1);
@@ -221,12 +221,12 @@ describe('StateSelectorService', () => {
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentHouse: House.stark,
+                currentHouse: null,
                 areas: areas,
                 currentlyAllowedSupply
             };
             // when
-            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor,House.stark);
 
             // then
             expect(result.indexOf(castleBlack.key)).toBe(-1);

@@ -1,6 +1,6 @@
 import {Store} from 'redux';
 import {State} from './state';
-import {ActionTypes} from './actions/actionTypes';
+import {ActionTypes} from './actions/actions';
 
 class GameLogic {
     private store: Store<State>;

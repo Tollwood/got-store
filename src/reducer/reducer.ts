@@ -1,5 +1,4 @@
-import {TypeKeys} from '../actions/actions';
-import {ActionTypes} from '../actions/actionTypes';
+import {ActionTypes, TypeKeys} from '../actions/actions';
 import {VictoryRules} from '../logic/victoryRules';
 import { GamePhaseService} from '../logic/gamePhaseService';
 import {RecruitingStateModificationService} from '../logic/gameState/recruitingStateModificationService';

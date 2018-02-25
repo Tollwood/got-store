@@ -25,9 +25,11 @@ import {GameLogicFactory} from './src/gameLogicFactory';
 import {StateSelectorService} from './src/selector/stateSelectorService';
 import {AreaStatsService} from './src/logic/area/areaStatsService';
 import {GameLogic} from './src/gameLogic';
+import {ActionTypes} from './src/actions/actions';
 
 export {
     ActionFactory,
+    ActionTypes,
     State,
     GameLogicFactory,
     GameLogic,

@@ -143,11 +143,13 @@ class GamePhaseService {
 
     private static getNextHouseWithPendingActions(ironThroneSuccession: House[], areas: Area[],
                                                   gamePhase: GamePhase, house: House, currentHouse: House) {
-        if (house === currentHouse) {
-            return null;
-        }
+
         if (this.isStillIn(areas, gamePhase, house)) {
             return house;
+        }
+
+        if (house === currentHouse) {
+            return null;
         }
         const nextHouse = this.nextHouse(ironThroneSuccession, house);
         return this.getNextHouseWithPendingActions(ironThroneSuccession, areas, gamePhase, nextHouse, currentHouse);

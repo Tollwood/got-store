@@ -137,7 +137,7 @@ class AiCalculator {
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
-                    StateSelectorService.getAllAreasAllowedToMarchTo(state, area).forEach((possibleAreaKey) => {
+                    StateSelectorService.getAllAreasAllowedToMarchTo(state, area, currentHouse).forEach((possibleAreaKey) => {
                         possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(state, area.key, possibleAreaKey, currentHouse), possibleAreaKey));
                     });
                     break;
