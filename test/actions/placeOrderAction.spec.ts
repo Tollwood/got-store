@@ -44,30 +44,30 @@ describe('placeOrderAction', () => {
 
     });
 
-    it('should place an orderToken and switch to next phase if all tokens are placed', () => {
+    fit('should place an orderToken and switch to next phase if all tokens are placed', () => {
         // given
         const areas = new Map<AreaKey, Area>();
         const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();
-        const secondArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman]).withOrderToken(OrderTokenType.march_zero).build();
+        const secondArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.greyjoy).withUnits([UnitType.Footman]).withOrderToken(OrderTokenType.raid_0).build();
         areas.set(sourceArea.key, sourceArea);
         areas.set(secondArea.key, secondArea);
         let gameStoreState = {
-            ironThroneSuccession: [House.lannister, House.stark],
+            ironThroneSuccession: [House.lannister, House.stark, House.greyjoy],
             gamePhase: GamePhase.PLANNING,
             areas: areas
         };
         store.execute(ActionFactory.loadGame(gameStoreState));
 
         // when
-        store.execute(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.raid_0)));
+        store.execute(ActionFactory.placeOrder(sourceArea.key, new OrderToken(House.stark, OrderTokenType.march_special)));
         const newState = store.getState();
         // then
         expect(newState).not.toBe(gameStoreState);
         const orderToken = newState.areas.get(sourceArea.key).orderToken;
         expect(orderToken).toBeDefined();
         expect(orderToken.getHouse()).toBe(House.stark);
-        expect(orderToken.getType()).toBe(OrderTokenType.raid_0);
+        expect(orderToken.getType()).toBe(OrderTokenType.march_special);
         expect(newState.gamePhase).toBe(GamePhase.ACTION_RAID);
-        expect(newState.currentHouse).toBe(House.lannister);
+        expect(newState.currentHouse).toBe(House.greyjoy);
     });
 });

@@ -5,8 +5,8 @@ import {Area} from '../model/area/area';
 import {State} from '../state';
 import {VictoryRules} from './victoryRules';
 import {PlayerStateModificationService} from './gameState/playerStateModificationService';
-import {AreaStateModificationService } from './gameState/areaStateModificationService';
-import {GameStateModificationService } from './gameState/gameStateModificationService';
+import {AreaStateModificationService} from './gameState/areaStateModificationService';
+import {GameStateModificationService} from './gameState/gameStateModificationService';
 import {StateSelectorService} from '../selector/stateSelectorService';
 
 class GamePhaseService {
@@ -16,13 +16,10 @@ class GamePhaseService {
     }
 
     public static getNextHouse(state: State, nextGamePhase: GamePhase) {
-        if (state.gamePhase === nextGamePhase) {
-            return this.getNextHouseWithPendingActions(state.ironThroneSuccession,
-                Array.from(state.areas.values()),
-                nextGamePhase,
-                this.nextHouse(state.ironThroneSuccession, state.currentHouse));
-        }
-        return state.ironThroneSuccession[0];
+        return this.getNextHouseWithPendingActions(state.ironThroneSuccession,
+            Array.from(state.areas.values()),
+            nextGamePhase,
+            this.nextHouse(state.ironThroneSuccession, state.currentHouse));
     }
 
     public static cleanupBoard(state: State) {
