@@ -6,7 +6,7 @@ import {AreaKey} from '../..//src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import Area from '../../src/model/area/area';
 import Player from '../../src/model/player/player';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
 
 
@@ -15,7 +15,7 @@ describe('moveUnitsAction', () => {
     const playerStark = new Player(House.stark, 1);
     let store;
     beforeEach(()=>{
-         store = GameStoreFactory.create();
+         store = GameStoreFactory.create([]);
     });
     it('should move the units and establish control in targetArea, aswell as moving on to the next player', () => {
         // given

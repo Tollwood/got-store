@@ -1,14 +1,9 @@
-import WesterosCard from '../../src/model/cards/westerosCard';
-import {GamePhase} from '../../src/model/gamePhase';
-import {GameStoreFactory} from '../../src/reducer';
-import {ActionFactory} from '../../src/ActionFactory';
-
 
 xdescribe('PlayWesterosCardAction', () => {
 
-    let store;
+  //  let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create();
+//        store = GameStoreFactory.create([]);
     });
    /* describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {

@@ -1,11 +1,10 @@
-import PlayerSetup from './model/player/playerSetup';
-import {UnitType} from './model/units/unitType';
-import Unit from './model/units/units';
-import {AreaKey} from './model/area/areaKey';
-import {OrderToken} from './model/orderToken/orderToken';
-import CombatResult from './model/combatResult';
-import WesterosCard from './model/cards/westerosCard';
-import {GameStoreState} from './gameStoreState';
+import PlayerSetup from '../model/player/playerSetup';
+import {UnitType} from '../model/units/unitType';
+import Unit from '../model/units/units';
+import {AreaKey} from '../model/area/areaKey';
+import {OrderToken} from '../model/orderToken/orderToken';
+import WesterosCard from '../model/cards/westerosCard';
+import {GameStoreState} from '../state';
 
 export enum TypeKeys {
     LOAD_GAME = 'LOAD_GAME',

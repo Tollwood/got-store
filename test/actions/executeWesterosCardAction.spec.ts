@@ -1,9 +1,8 @@
-import {GamePhase} from '../../src/model/gamePhase';
 import WesterosCard from '../../src/model/cards/westerosCard';
 import WesterosCardBuilder from '../westerosCardBuilder';
 import CardFunction from '../../src/model/cards/cardFunction';
-import {GameStoreState} from '../../src/gameStoreState';
-import {GameStoreFactory} from '../../src/reducer';
+import {GameStoreState} from '../../src/state';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
 import {CardAbilities} from '../../src/logic/cards/cardAbilities';
 
@@ -21,7 +20,7 @@ xdescribe('executeWesterosCardAction', () => {
             .build();
 
         const state: GameStoreState = {wildlingsCount: currentWildingCount};
-        const store = GameStoreFactory.create();
+        const store = GameStoreFactory.create([]);
         store.dispatch(ActionFactory.loadGame(state));
 
         spyOn(CardAbilities, 'shuffleCards').and.returnValue(state);

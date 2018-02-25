@@ -4,7 +4,7 @@ import SupplyStateModificationService from '../gameState/supplyStateModification
 import RecruitingStateModificationService from '../gameState/recruitingStateModificationService';
 import GamePhaseService from '../gamePhaseService';
 import CardFactory from '../cards/cardFactory';
-import {GameStoreState} from './../../gameStoreState';
+import {GameStoreState} from '../../state';
 
 export class CardAbilities {
 

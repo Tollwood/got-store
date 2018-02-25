@@ -5,7 +5,7 @@ import AreaBuilder from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
 import Area from '../../src/model/area/area';
 
-import {GameStoreState} from '../../src/gameStoreState';
+import {GameStoreState} from '../../src/state';
 
 describe('VictoryRules', () => {
 

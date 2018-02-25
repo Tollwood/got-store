@@ -4,16 +4,16 @@ import {House} from '../../src/model/player/house';
 import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 import Area from '../../src/model/area/area';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
-import {GameStoreState} from '../../src/gameStoreState';
+import {GameStoreState} from '../../src/state';
 
 
 describe('recruitUnitsAction', () => {
 
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create();
+        store = GameStoreFactory.create([]);
     });
     it('should skip recruiting if no units are provided', () => {
         // given

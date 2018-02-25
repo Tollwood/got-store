@@ -2,7 +2,7 @@ import AreaBuilder from '../areaBuilder';
 import {AreaKey} from '../../src/model/area/areaKey';
 import Player from '../../src/model/player/player';
 import {House} from '../../src/model/player/house';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
 import Area from '../../src/model/area/area';
 
@@ -16,7 +16,7 @@ describe('executeRaidOrder', () => {
     let playerLannister: Player;
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create();
+        store = GameStoreFactory.create([]);
         playerStark = new Player(House.stark, 0);
         playerLannister = new Player(House.lannister, 0);
     });

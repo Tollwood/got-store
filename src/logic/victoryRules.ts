@@ -1,7 +1,7 @@
 import {House} from '../model/player/house';
 import Area from '../model/area/area';
 import {AreaKey} from '../model/area/areaKey';
-import {GameStoreState} from '../gameStoreState';
+import {GameStoreState} from '../state';
 import {AreaStatsService} from './area/areaStatsService';
 
 export default class VictoryRules {

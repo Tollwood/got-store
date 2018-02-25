@@ -20,8 +20,8 @@ import CombatResult from './src/model/combatResult';
 import {GamePhase} from './src/model/gamePhase';
 
 import {ActionFactory} from './src/ActionFactory';
-import {GameStoreState} from './src/gameStoreState';
-import {GameStoreFactory} from './src/reducer';
+import {GameStoreState} from './src/state';
+import GameStoreFactory from './src/gameStoreFactory';
 import StateSelectorService from './src/selector/stateSelectorService';
 import {AreaStatsService} from './src/logic/area/areaStatsService';
 export {

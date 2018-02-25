@@ -2,7 +2,7 @@ import {ALL_PHASES, GamePhase} from '../model/gamePhase';
 import {House} from '../model/player/house';
 import {AreaKey} from '../model/area/areaKey';
 import Area from '../model/area/area';
-import {GameStoreState} from '../gameStoreState';
+import {GameStoreState} from '../state';
 import VictoryRules from './victoryRules';
 import PlayerStateModificationService from './gameState/playerStateModificationService';
 import AreaModificationService from './gameState/areaStateModificationService';

@@ -5,7 +5,7 @@ import {OrderToken} from '../../model/orderToken/orderToken';
 import Unit from '../../model/units/units';
 import {UnitType} from '../../model/units/unitType';
 import StateSelectorService from '../../selector/stateSelectorService';
-import {GameStoreState} from '../../gameStoreState';
+import {GameStoreState} from '../../state';
 
 export default class AreaStateModificationService {
 

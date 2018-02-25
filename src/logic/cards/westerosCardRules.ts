@@ -1,5 +1,5 @@
 import WesterosCard from '../../model/cards/westerosCard';
-import {GameStoreState} from '../../gameStoreState';
+import {GameStoreState} from '../../state';
 import {GamePhase} from '../../model/gamePhase';
 
 

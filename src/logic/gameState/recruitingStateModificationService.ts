@@ -1,6 +1,6 @@
 import {AreaKey} from '../../model/area/areaKey';
 import StateSelectorService from '../../selector/stateSelectorService';
-import {GameStoreState} from '../../gameStoreState';
+import {GameStoreState} from '../../state';
 import {AreaStatsService} from '../area/areaStatsService';
 
 export default class RecruitingStateModificationService {

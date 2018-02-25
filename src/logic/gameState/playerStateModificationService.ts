@@ -2,7 +2,7 @@ import Area from '../../model/area/area';
 import {AreaKey} from '../../model/area/areaKey';
 import Player from '../../model/player/player';
 import {House} from '../../model/player/house';
-import {GameStoreState} from '../../gameStoreState';
+import {GameStoreState} from '../../state';
 import {AreaStatsService} from '../area/areaStatsService';
 import PlayerSetup from '../../model/player/playerSetup';
 

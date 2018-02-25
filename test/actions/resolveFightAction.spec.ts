@@ -4,7 +4,7 @@ import CombatResult from '../../src/model/combatResult';
 import {House} from '../../src/model/player/house';
 import {UnitType} from '../../src/model/units/unitType';
 import Player from '../../src/model/player/player';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
 import Area from '../../src/model/area/area';
 import AreaBuilder from '../areaBuilder';
@@ -14,7 +14,7 @@ describe('resolveFight', () => {
     const ironThroneSuccession = [House.lannister, House.stark];
     let store;
     beforeEach(() => {
-        store = GameStoreFactory.create();
+        store = GameStoreFactory.create([]);
     });
     it('should eliminate defenders army and establish control over attacking area if attacker wins', () => {
         // given

@@ -1,7 +1,6 @@
-import {ActionFactory} from '../../src/ActionFactory';
 import PlayerSetup from '../../src/model/player/playerSetup';
 import {House} from '../../src/model/player/house';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {GamePhase} from '../../src/model/gamePhase';
 
 
@@ -10,9 +9,8 @@ describe('newGameAction', () => {
     it('should remove orderToken and switch to Next Player', () => {
 
         const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
-        const isDegugEnabled: boolean = false;
-        const store = GameStoreFactory.create(isDegugEnabled);
-        store.dispatch(ActionFactory.newGame(playerSetup));
+        const isDebugEnabled: boolean = false;
+        const store = GameStoreFactory.create(playerSetup,isDebugEnabled);
 
         const state = store.getState();
         expect(state.areas.size).toEqual(18);
@@ -24,14 +22,13 @@ describe('newGameAction', () => {
         //expect(state.currentWesterosCardExecuted.length).toBe(0);
     });
 
-
     it('should set isDegugEnabeled to true', () => {
 
-        const isDegugEnabled: boolean = true;
-        const store = GameStoreFactory.create(isDegugEnabled);
+        const isDebugEnabled: boolean = true;
+        const store = GameStoreFactory.create([],isDebugEnabled);
 
         const state = store.getState();
-        expect(state.isDegugEnabled).toBe(true);
+        expect(state.isDebugEnabled).toBe(true);
     });
 });
 

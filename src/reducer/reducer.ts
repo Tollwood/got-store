@@ -1,26 +1,25 @@
-import {createStore, Store} from 'redux';
-import {ActionTypes, TypeKeys} from './actions';
-import VictoryRules from './logic/victoryRules';
-import GamePhaseService from './logic/gamePhaseService';
-import RecruitingStateModificationService from './logic/gameState/recruitingStateModificationService';
-import AreaModificationService from './logic/gameState/areaStateModificationService';
-import PlayerStateModificationService from './logic/gameState/playerStateModificationService';
-import GameStateModificationService from './logic/gameState/gameStateModificationService';
-import {GameStoreState} from './gameStoreState';
-import CombatCalculator from './logic/combatCalculator';
+import {ActionTypes, TypeKeys} from '../actions/actions';
+import VictoryRules from '../logic/victoryRules';
+import GamePhaseService from '../logic/gamePhaseService';
+import RecruitingStateModificationService from '../logic/gameState/recruitingStateModificationService';
+import AreaModificationService from '../logic/gameState/areaStateModificationService';
+import PlayerStateModificationService from '../logic/gameState/playerStateModificationService';
+import GameStateModificationService from '../logic/gameState/gameStateModificationService';
+import {GameStoreState} from '../state';
+import CombatCalculator from '../logic/combatCalculator';
 
 const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): GameStoreState => {
     let newState;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
             newState = {
-                ...GameStateModificationService.init(action.playerSetup)
+                ...GameStateModificationService.init(action.playerSetup, state.isDebugEnabled )
             };
             break;
         case TypeKeys.LOAD_GAME:
             newState = {
                 ...action.state,
-                isDegugEnabled: state.isDegugEnabled};
+                isDebugEnabled: state.isDebugEnabled};
             break;
         case TypeKeys.RECRUIT_UNITS:
             const areasAllowedToRecruit = RecruitingStateModificationService.updateAreasAllowedToRecruit(
@@ -107,16 +106,11 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
     }
     const nextState = GamePhaseService.cleanupBoard(newState);
-    if(state.isDegugEnabled){
+    if(state.isDebugEnabled){
         console.log({action, oldState: nextState, nextState, newState: newState});
     }
     return nextState;
 };
 
-class GameStoreFactory {
-    static create(isDegugEnabled?:boolean): Store<GameStoreState> {
-        return createStore(gameStateReducer,{isDegugEnabled});
-    }
-}
 
-export {GameStoreFactory};
+export {gameStateReducer};

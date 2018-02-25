@@ -5,7 +5,7 @@ import {AreaKey} from '../../src/model/area/areaKey';
 import {OrderTokenType} from '../../src/model/orderToken/orderTokenType';
 
 import Area from '../../src/model/area/area';
-import {GameStoreFactory} from '../../src/reducer';
+import GameStoreFactory from '../../src/gameStoreFactory';
 import {ActionFactory} from '../../src/ActionFactory';
 import {OrderToken} from '../../src/model/orderToken/orderToken';
 import {GamePhase} from '../../src/model/gamePhase';
@@ -14,7 +14,7 @@ describe('placeOrderAction', () => {
 
     let store;
     beforeEach(()=>{
-        store = GameStoreFactory.create();
+        store = GameStoreFactory.create([]);
     });
     
     it('should place an orderToken', () => {
