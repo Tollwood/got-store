@@ -5,6 +5,7 @@ import {House} from '../model/player/house';
 import {State} from '../state';
 import {AreaStatsService} from '../logic/area/areaStatsService';
 import {OrderTokenType} from '../model/orderToken/orderTokenType';
+import {VictoryRules} from '../logic/victoryRules';
 
 class StateSelectorService {
 
@@ -157,6 +158,11 @@ class StateSelectorService {
             return areaKey === target.key;
         }).length === 1;
     }
+
+    public static getVictoryPositionFor(state: State, house: House): number {
+        return VictoryRules.getVictoryPositionFor(state, house);
+    }
+
 }
 
 export {StateSelectorService}
